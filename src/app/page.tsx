@@ -80,7 +80,7 @@ const Portfolio = () => {
               <div className="mb-8">
                 <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-1">
                   <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center">
-                    <span className="text-4xl font-bold">TI</span>
+                    <span className="text-4xl font-bold">Yo This Tomasa</span>
                   </div>
                 </div>
               </div>
