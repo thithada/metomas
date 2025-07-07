@@ -4,101 +4,250 @@ import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, ChevronDown } from
 
 const Portfolio = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
-  }, []);
+
+    // Close modal on ESC key press
+    const handleEscKey = (event) => {
+      if (event.key === 'Escape' && isModalOpen) {
+        closeSkillModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, [isModalOpen]);
 
   const projects = [
     {
       title: "Maintenance UP",
       type: "Team Project",
-      tech: "React, Node.js, MySQL",
-      description: "A facility maintenance request and tracking system on campus. Solved broken facility reporting issues by creating an efficient request management system.",
+      role: "Frontend & Backend Developer",
+      tech: "React, Node.js, Express.js, MySQL, HTML, CSS",
+      description: "A facility maintenance request and tracking system on campus. Developed user interface components and API endpoints for request management.",
+      learned: "Team collaboration with Git, API integration, database design, and agile development workflow.",
       category: "Full-Stack"
     },
     {
       title: "Autocar",
       type: "Team Project", 
-      tech: "Vue.js, Express, TiDB",
-      description: "A repair-tracking system for personal vehicles sent to service centers. Features real-time status updates and progress notifications.",
+      role: "Frontend & Backend Developer",
+      tech: "Vue.js, Node.js, Express.js, TiDB, HTML, CSS",
+      description: "A repair-tracking system for personal vehicles. Built notification features and real-time status update functionality.",
+      learned: "Real-time data handling, team coordination, and cross-platform development practices.",
       category: "Full-Stack"
     },
     {
       title: "Nutrition Analysis",
       type: "Team Project",
-      tech: "JavaScript, HTML, CSS",
-      description: "A project built according to instructor requirements, aimed to collect and analyze each user's daily caloric intake.",
-      category: "Frontend"
+      role: "Frontend & Backend Developer",
+      tech: "JavaScript, HTML, CSS, Node.js, Express.js",
+      description: "A system to collect and analyze daily caloric intake. Implemented data visualization and user management features.",
+      learned: "Data processing, team project management, and full-stack development workflow.",
+      category: "Full-Stack"
     },
     {
       title: "HowTheCat",
       type: "Solo Project",
-      tech: "JavaScript, Canvas API",
-      description: "A personal 2D farming game designed and developed from scratch, exploring core gameplay mechanics, interaction, and visual style.",
+      role: "Game Developer",
+      tech: "Godot Engine, Python (GDScript)",
+      description: "A 2D farming simulation game built from scratch. Implemented game mechanics, physics, and user interaction systems.",
+      learned: "Independent problem-solving, project planning, game engine development, and solo development lifecycle.",
       category: "Game Dev"
     }
   ];
 
-  const skills = {
-    "Testing": ["Manual Testing", "Test Case Writing", "Bug Reporting"],
-    "Programming": ["JavaScript", "TypeScript", "Python", "Java", "HTML", "CSS"],
-    "Frontend": ["React", "Next.js", "Vue.js", "Tailwind CSS"],
-    "Backend": ["Node.js", "Express"],
-    "Database": ["MySQL", "TiDB"],
-    "Tools": ["Git", "GitHub", "VS Code", "Postman", "JIRA", "Figma"]
-  };
+  const skills = [
+    {
+      name: "JavaScript",
+      logo: "JS",
+      category: "Programming Language",
+      description: "Core programming language for web development. Used extensively in frontend and backend projects."
+    },
+    {
+      name: "TypeScript", 
+      logo: "TS",
+      category: "Programming Language",
+      description: "Superset of JavaScript with static typing. Enhances code quality and maintainability."
+    },
+    {
+      name: "Python",
+      logo: "PY",
+      category: "Programming Language",
+      description: "Versatile programming language used for scripting, automation, and backend development."
+    },
+    {
+      name: "HTML",
+      logo: "HTML",
+      category: "Markup Language",
+      description: "Standard markup language for creating web pages and web applications."
+    },
+    {
+      name: "CSS",
+      logo: "CSS",
+      category: "Styling Language",
+      description: "Stylesheet language used for describing the presentation of web documents."
+    },
+    {
+      name: "React",
+      logo: "React",
+      category: "Frontend Framework",
+      description: "Used in Maintenance UP project for building interactive user interfaces."
+    },
+    {
+      name: "Vue.js",
+      logo: "Vue",
+      category: "Frontend Framework",
+      description: "Implemented in Autocar project for creating responsive frontend."
+    },
+    {
+      name: "Node.js",
+      logo: "Node",
+      category: "Backend Runtime",
+      description: "Backend development for multiple team projects, handling API endpoints."
+    },
+    {
+      name: "Express.js",
+      logo: "Express",
+      category: "Backend Framework",
+      description: "Web framework for Node.js used for building RESTful APIs and handling HTTP requests."
+    },
+    {
+      name: "Tailwind CSS",
+      logo: "TW",
+      category: "CSS Framework",
+      description: "Utility-first CSS framework for rapid UI development."
+    },
+    {
+      name: "Next.js",
+      logo: "Next",
+      category: "React Framework",
+      description: "React framework with server-side rendering and optimization features."
+    },
+    {
+      name: "MySQL",
+      logo: "MySQL",
+      category: "Database",
+      description: "Relational database used in projects for storing and managing data."
+    },
+    {
+      name: "TiDB",
+      logo: "TiDB",
+      category: "Database",
+      description: "Distributed SQL database used in Autocar project for handling vehicle repair data."
+    },
+    {
+      name: "Godot Engine",
+      logo: "Godot",
+      category: "Game Engine",
+      description: "2D/3D game engine used for developing HowTheCat farming simulation game."
+    },
+    {
+      name: "Git",
+      logo: "Git",
+      category: "Version Control",
+      description: "Essential tools for team collaboration and project management."
+    },
+    {
+      name: "GitHub",
+      logo: "GitHub",
+      category: "Development Platform",
+      description: "Web-based platform for version control and collaborative software development."
+    },
+    {
+      name: "VS Code",
+      logo: "VSC",
+      category: "Development Tool",
+      description: "Primary code editor with extensions for enhanced productivity."
+    },
+    {
+      name: "Postman",
+      logo: "Postman",
+      category: "API Testing",
+      description: "API testing and development tool used for testing backend endpoints."
+    }
+  ];
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId) => {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const openSkillModal = (skill) => {
+    setSelectedSkill(skill);
+    setIsModalOpen(true);
+  };
+
+  const closeSkillModal = () => {
+    setIsModalOpen(false);
+    setSelectedSkill(null);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-slate-900/90 backdrop-blur-sm border-b border-slate-700 z-50">
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50 shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Thithada Islam
-            </h1>
+            <h1 className="text-xl font-bold text-gray-800">MeTomas</h1>
             <div className="hidden md:flex space-x-8">
-              <button onClick={() => scrollToSection('about')} className="hover:text-blue-400 transition-colors">About</button>
-              <button onClick={() => scrollToSection('projects')} className="hover:text-blue-400 transition-colors">Projects</button>
-              <button onClick={() => scrollToSection('skills')} className="hover:text-blue-400 transition-colors">Skills</button>
-              <button onClick={() => scrollToSection('contact')} className="hover:text-blue-400 transition-colors">Contact</button>
+              <button
+                onClick={() => scrollToSection("about")}
+                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+              >
+                About
+              </button>
+              <button
+                onClick={() => scrollToSection("projects")}
+                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+              >
+                Projects
+              </button>
+              <button
+                onClick={() => scrollToSection("skills")}
+                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+              >
+                Skills
+              </button>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+              >
+                Contact
+              </button>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-20 pb-16 px-6">
+      <section className="pt-32 pb-20 px-6 relative">
         <div className="max-w-6xl mx-auto">
-          <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div
+            className={`transition-all duration-1000 ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-10"
+            }`}
+          >
             <div className="text-center mb-12">
-              <div className="mb-8">
-                <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-1">
-                  <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center">
-                    <span className="text-4xl font-bold">Yo This Tomasa</span>
-                  </div>
-                </div>
-              </div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Thithada Islam
+              <h1 className="text-8xl md:text-9xl font-extrabold mb-6 text-gray-900 tracking-tight">
+                I'm
               </h1>
-              <p className="text-xl md:text-2xl text-slate-300 mb-6">
-                Software Engineering Student
-              </p>
-              <p className="text-lg text-slate-400 mb-8 max-w-2xl mx-auto">
-                Passionate about QA and Software Testing • University of Phayao • GPA 3.39
-              </p>
-              <button 
-                onClick={() => scrollToSection('about')}
-                className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+              <h1 className="text-8xl md:text-9xl font-extrabold mb-6 text-red-500 tracking-tight">
+                Tomas
+              </h1>
+
+              <div className="w-24 h-1 bg-red-500 mx-auto mb-6"></div>
+
+              <button
+                onClick={() => scrollToSection("about")}
+                className="inline-flex items-center px-10 py-4 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg font-medium"
               >
-                Learn More
-                <ChevronDown className="ml-2 w-5 h-5" />
+                Discover More
+                <ChevronDown className="ml-3 w-5 h-5" />
               </button>
             </div>
           </div>
@@ -106,40 +255,69 @@ const Portfolio = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 px-6 bg-slate-800/50">
+      <section id="about" className="py-20 px-6 bg-white/70 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            About Me
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-lg text-slate-300 leading-relaxed mb-6">
-                I'm a Software Engineering student passionate about QA and software testing. I enjoy the process of identifying bugs and resolving issues to enhance software reliability.
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-gray-800 mb-4">About Me</h2>
+            <div className="w-20 h-1 bg-red-500 mx-auto"></div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-6">
+              <p className="text-xl text-gray-600 leading-relaxed">
+                I'm a Software Engineering student with growing interest in
+                DevOps and automation. I enjoy learning about different
+                technologies and how teams collaborate to build and deploy
+                software efficiently.
               </p>
-              <p className="text-lg text-slate-300 leading-relaxed mb-6">
-                Currently seeking an internship opportunity to expand my expertise and gain practical experience in quality assurance testing.
+              <p className="text-xl text-gray-600 leading-relaxed">
+                Looking for an internship opportunity to expand my knowledge,
+                contribute to projects, and learn from experienced professionals
+                in a team environment.
               </p>
-              <div className="space-y-4">
+              <div className="space-y-4 pt-6">
                 <div className="flex items-center">
-                  <MapPin className="w-5 h-5 text-blue-400 mr-3" />
-                  <span>University of Phayao</span>
+                  <div className="w-2 h-2 bg-red-500 rounded-full mr-4"></div>
+                  <MapPin className="w-5 h-5 text-red-500 mr-3" />
+                  <span className="text-gray-700 text-lg">
+                    University of Phayao
+                  </span>
                 </div>
                 <div className="flex items-center">
-                  <span className="w-5 h-5 text-blue-400 mr-3 text-center">🎓</span>
-                  <span>Software Engineering (2023 - Present)</span>
+                  <div className="w-2 h-2 bg-red-500 rounded-full mr-4"></div>
+                  <span className="w-5 h-5 text-red-500 mr-3 text-center text-lg">
+                    🎓
+                  </span>
+                  <span className="text-gray-700 text-lg">
+                    Software Engineering (2023 - Present)
+                  </span>
                 </div>
                 <div className="flex items-center">
-                  <span className="w-5 h-5 text-blue-400 mr-3 text-center">📊</span>
-                  <span>GPA: 3.39</span>
+                  <div className="w-2 h-2 bg-red-500 rounded-full mr-4"></div>
+                  <span className="w-5 h-5 text-red-500 mr-3 text-center text-lg">
+                    📊
+                  </span>
+                  <span className="text-gray-700 text-lg">GPA: 3.39</span>
                 </div>
               </div>
             </div>
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold mb-4">Interests</h3>
+            <div className="space-y-8">
+              <h3 className="text-3xl font-light text-gray-800 mb-6">
+                Interests
+              </h3>
               <div className="grid grid-cols-2 gap-4">
-                {["Fitness & Exercise", "Travel & Adventure", "Finance & Business", "Self-Development", "Reading Books", "Gaming"].map((interest, index) => (
-                  <div key={index} className="bg-slate-700 rounded-lg p-3 text-center hover:bg-slate-600 transition-colors">
-                    {interest}
+                {[
+                  "Fitness & Exercise",
+                  "Travel & Adventure",
+                  "Finance & Business",
+                  "Self-Development",
+                  "Reading Books",
+                  "Gaming",
+                ].map((interest, index) => (
+                  <div
+                    key={index}
+                    className="bg-white/80 backdrop-blur rounded-xl p-4 text-center hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-sm hover:shadow-md transform hover:scale-105"
+                  >
+                    <span className="font-medium">{interest}</span>
                   </div>
                 ))}
               </div>
@@ -149,28 +327,49 @@ const Portfolio = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-16 px-6">
+      <section id="projects" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Projects
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-gray-800 mb-4">Projects</h2>
+            <div className="w-20 h-1 bg-red-500 mx-auto"></div>
+          </div>
+          <div className="grid lg:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <div key={index} className="bg-slate-800 rounded-xl p-6 hover:transform hover:scale-105 transition-all duration-300 border border-slate-700 hover:border-blue-500">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-semibold text-blue-400">{project.title}</h3>
-                  <span className="text-sm bg-purple-600 px-3 py-1 rounded-full">{project.category}</span>
+              <div
+                key={index}
+                className="bg-white/80 backdrop-blur rounded-2xl p-8 hover:transform hover:scale-105 transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg hover:shadow-xl group"
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <h3 className="text-2xl font-semibold text-gray-800 group-hover:text-red-500 transition-colors">
+                    {project.title}
+                  </h3>
+                  <span className="text-sm bg-red-500 text-white px-4 py-2 rounded-full font-medium">
+                    {project.category}
+                  </span>
                 </div>
-                <p className="text-sm text-slate-400 mb-2">{project.type}</p>
-                <p className="text-slate-300 mb-4 leading-relaxed">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.split(', ').map((tech, techIndex) => (
-                    <span key={techIndex} className="text-xs bg-slate-700 px-2 py-1 rounded text-blue-300">
+                <p className="text-sm text-gray-500 mb-3 font-medium uppercase tracking-wide">
+                  {project.type}
+                </p>
+                <p className="text-sm text-red-600 mb-4 font-medium">
+                  <strong>Role:</strong> {project.role}
+                </p>
+                <p className="text-gray-700 mb-4 leading-relaxed text-lg">
+                  {project.description}
+                </p>
+                <p className="text-sm text-gray-600 mb-6 italic">
+                  <strong>Learned:</strong> {project.learned}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tech.split(", ").map((tech, techIndex) => (
+                    <span
+                      key={techIndex}
+                      className="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full border"
+                    >
                       {tech}
                     </span>
                   ))}
                 </div>
-                <button className="flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+                <button className="flex items-center text-red-500 hover:text-red-600 transition-colors font-medium">
                   View Details
                   <ExternalLink className="ml-2 w-4 h-4" />
                 </button>
@@ -181,22 +380,34 @@ const Portfolio = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-16 px-6 bg-slate-800/50">
+      <section id="skills" className="py-20 px-6 bg-white/70 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Skills & Tools
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Object.entries(skills).map(([category, skillList], index) => (
-              <div key={index} className="bg-slate-800 rounded-xl p-6 border border-slate-700">
-                <h3 className="text-xl font-semibold mb-4 text-blue-400">{category}</h3>
-                <div className="space-y-2">
-                  {skillList.map((skill, skillIndex) => (
-                    <div key={skillIndex} className="flex items-center">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                      <span className="text-slate-300">{skill}</span>
-                    </div>
-                  ))}
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-gray-800 mb-4">
+              Skills & Tools
+            </h2>
+            <div className="w-20 h-1 bg-red-500 mx-auto mb-6"></div>
+            <p className="text-xl text-gray-600">
+              Click on any skill to learn more about my experience
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {skills.map((skill, index) => (
+              <div
+                key={index}
+                onClick={() => openSkillModal(skill)}
+                className="bg-white/90 backdrop-blur rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-gray-200 hover:border-red-500 group"
+              >
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gray-800 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-500 transition-colors border group-hover:border-red-500">
+                    <span className="text-sm font-bold text-white">
+                      {skill.logo}
+                    </span>
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-800 group-hover:text-red-500 transition-colors">
+                    {skill.name}
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-2">{skill.category}</p>
                 </div>
               </div>
             ))}
@@ -204,40 +415,107 @@ const Portfolio = () => {
         </div>
       </section>
 
+      {/* Skill Modal */}
+      {isModalOpen && selectedSkill && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              closeSkillModal();
+            }
+          }}
+        >
+          <div className="bg-white rounded-2xl p-10 max-w-md w-full relative border shadow-2xl">
+            <button
+              onClick={closeSkillModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6 border">
+                <span className="text-lg font-bold text-white">
+                  {selectedSkill.logo}
+                </span>
+              </div>
+
+              <h3 className="text-3xl font-bold text-gray-800 mb-2">
+                {selectedSkill.name}
+              </h3>
+              <p className="text-red-500 text-sm mb-6 font-medium uppercase tracking-wide">
+                {selectedSkill.category}
+              </p>
+              <p className="text-gray-600 leading-relaxed text-lg">
+                {selectedSkill.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Contact Section */}
-      <section id="contact" className="py-16 px-6">
+      <section id="contact" className="py-20 px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-12 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Get In Touch
-          </h2>
-          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            I'm currently seeking internship opportunities in QA and software testing. Let's connect!
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-gray-800 mb-4">
+              Get In Touch
+            </h2>
+            <div className="w-20 h-1 bg-red-500 mx-auto"></div>
+          </div>
+          <p className="text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+            I'm currently seeking internship opportunities in DevOps and
+            Full-Stack Development. Let's connect!
           </p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-8">
-            <a href="mailto:madname00@gmail.com" className="flex items-center bg-slate-800 px-6 py-3 rounded-full hover:bg-slate-700 transition-colors border border-slate-600 hover:border-blue-500">
-              <Mail className="w-5 h-5 mr-3 text-blue-400" />
-              madname00@gmail.com
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
+            <a
+              href="mailto:madname00@gmail.com"
+              className="flex items-center bg-white/90 backdrop-blur px-8 py-4 rounded-full hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
+            >
+              <Mail className="w-5 h-5 mr-3 text-red-500" />
+              <span className="font-medium">madname00@gmail.com</span>
             </a>
-            <a href="tel:093-494-9511" className="flex items-center bg-slate-800 px-6 py-3 rounded-full hover:bg-slate-700 transition-colors border border-slate-600 hover:border-blue-500">
-              <Phone className="w-5 h-5 mr-3 text-blue-400" />
-              093-494-9511
+            <a
+              href="tel:093-494-9511"
+              className="flex items-center bg-white/90 backdrop-blur px-8 py-4 rounded-full hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
+            >
+              <Phone className="w-5 h-5 mr-3 text-red-500" />
+              <span className="font-medium">093-494-9511</span>
             </a>
           </div>
-          <div className="flex justify-center space-x-6">
-            <a href="https://linkedin.com/in/thithada" className="bg-slate-800 p-4 rounded-full hover:bg-blue-600 transition-all duration-300 transform hover:scale-110 border border-slate-600 hover:border-blue-500">
-              <Linkedin className="w-6 h-6" />
+          <div className="flex justify-center space-x-8">
+            <a
+              href="https://linkedin.com/in/thithada"
+              className="bg-white/90 backdrop-blur p-4 rounded-full hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
+            >
+              <Linkedin className="w-6 h-6 text-gray-700 group-hover:text-white" />
             </a>
-            <a href="https://github.com/thithada" className="bg-slate-800 p-4 rounded-full hover:bg-gray-600 transition-all duration-300 transform hover:scale-110 border border-slate-600 hover:border-gray-500">
-              <Github className="w-6 h-6" />
+            <a
+              href="https://github.com/thithada"
+              className="bg-white/90 backdrop-blur p-4 rounded-full hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
+            >
+              <Github className="w-6 h-6 text-gray-700 group-hover:text-white" />
             </a>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 bg-slate-900 border-t border-slate-700">
+      <footer className="py-12 px-6 bg-white/80 backdrop-blur border-t border-gray-200">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-slate-400">
+          <p className="text-gray-500 text-lg">
             © 2024 Thithada Islam. Built with Next.js and Tailwind CSS.
           </p>
         </div>
