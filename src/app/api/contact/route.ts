@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-export async function POST(request: { json: () => PromiseLike<{ name: any; email: any; subject: any; message: any; }> | { name: any; email: any; subject: any; message: any; }; }) {
+export async function POST(request) {
   try {
     const { name, email, subject, message } = await request.json();
 
