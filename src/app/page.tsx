@@ -1,14 +1,46 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, ChevronDown } from 'lucide-react';
+import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, ChevronDown, Send, User, MessageCircle } from 'lucide-react';
 
 const Portfolio = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  
+  // Contact form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState('');
 
   useEffect(() => {
     setIsVisible(true);
+
+    // Scroll handler for navbar visibility and scroll to top button
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Navbar visibility logic
+      if (currentScrollY < lastScrollY || currentScrollY < 100) {
+        // Scrolling up or near top - show navbar
+        setIsNavVisible(true);
+      } else {
+        // Scrolling down - hide navbar
+        setIsNavVisible(false);
+      }
+      
+      // Show scroll to top button when scrolled down significantly
+      setShowScrollTop(currentScrollY > 500);
+      
+      setLastScrollY(currentScrollY);
+    };
 
     // Close modal on ESC key press
     const handleEscKey = (event) => {
@@ -18,8 +50,13 @@ const Portfolio = () => {
     };
 
     document.addEventListener('keydown', handleEscKey);
-    return () => document.removeEventListener('keydown', handleEscKey);
-  }, [isModalOpen]);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isModalOpen, lastScrollY]);
 
   const projects = [
     {
@@ -171,8 +208,16 @@ const Portfolio = () => {
     }
   ];
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const scrollToSection = (sectionId) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    if (sectionId === "hero") {
+      scrollToTop();
+    } else {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const openSkillModal = (skill) => {
@@ -185,35 +230,109 @@ const Portfolio = () => {
     setSelectedSkill(null);
   };
 
+  // Handle form input changes
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setIsFormSubmitting(true);
+    setFormStatus('');
+
+    try {
+      // Validate form data
+      if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+        setFormStatus('validation');
+        return;
+      }
+
+      // Send to API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      // Success
+      setFormStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => setFormStatus(''), 5000);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setFormStatus('error');
+      setTimeout(() => setFormStatus(''), 5000);
+    } finally {
+      setIsFormSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50 shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4">
+      <nav className={`fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50 shadow-sm transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+        <div className="max-w-7xl mx-auto px-8 py-6">
           <div className="flex justify-between items-center">
-            <h1 className="text-xl font-bold text-gray-800">MeTomas</h1>
-            <div className="hidden md:flex space-x-8">
+            {/* Left - Brand */}
+            <button 
+              onClick={scrollToTop}
+              className="text-2xl font-bold relative group"
+            >
+              <span className="text-gray-800 group-hover:text-red-500 transition-colors">Me</span>
+              <span className="text-red-500 group-hover:text-gray-800 transition-colors">Tomas</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+            </button>
+            
+            {/* Center - Main Navigation */}
+            <div className="hidden md:flex space-x-12">
               <button
                 onClick={() => scrollToSection("about")}
-                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+                className="relative text-lg text-gray-700 hover:text-red-500 transition-colors font-medium group py-2"
               >
                 About
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
               </button>
               <button
                 onClick={() => scrollToSection("projects")}
-                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+                className="relative text-lg text-gray-700 hover:text-red-500 transition-colors font-medium group py-2"
               >
                 Projects
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
               </button>
               <button
                 onClick={() => scrollToSection("skills")}
-                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+                className="relative text-lg text-gray-700 hover:text-red-500 transition-colors font-medium group py-2"
               >
                 Skills
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
               </button>
+            </div>
+            
+            {/* Right - Contact */}
+            <div className="hidden md:block">
               <button
                 onClick={() => scrollToSection("contact")}
-                className="text-gray-700 hover:text-red-500 transition-colors font-medium"
+                className="relative bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
               >
                 Contact
               </button>
@@ -223,7 +342,7 @@ const Portfolio = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative">
+      <section id="hero" className="pt-32 pb-20 px-6 relative">
         <div className="max-w-6xl mx-auto">
           <div
             className={`transition-all duration-1000 ${
@@ -233,10 +352,10 @@ const Portfolio = () => {
             }`}
           >
             <div className="text-center mb-12">
-              <h1 className="text-8xl md:text-9xl font-extrabold mb-6 text-gray-900 tracking-tight">
+              <h1 className="text-9xl md:text-10xl lg:text-11xl font-extrabold mb-6 text-gray-900 tracking-tight">
                 I'm
               </h1>
-              <h1 className="text-8xl md:text-9xl font-extrabold mb-6 text-red-500 tracking-tight">
+              <h1 className="text-9xl md:text-10xl lg:text-11xl font-extrabold mb-6 text-red-500 tracking-tight">
                 Tomas
               </h1>
 
@@ -468,46 +587,162 @@ const Portfolio = () => {
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6">
-        <div className="max-w-6xl mx-auto text-center">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-light text-gray-800 mb-4">
               Get In Touch
             </h2>
             <div className="w-20 h-1 bg-red-500 mx-auto"></div>
           </div>
-          <p className="text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-            I'm currently seeking internship opportunities in DevOps and
-            Full-Stack Development. Let's connect!
-          </p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-8 mb-12">
-            <a
-              href="mailto:madname00@gmail.com"
-              className="flex items-center bg-white/90 backdrop-blur px-8 py-4 rounded-full hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
-            >
-              <Mail className="w-5 h-5 mr-3 text-red-500" />
-              <span className="font-medium">madname00@gmail.com</span>
-            </a>
-            <a
-              href="tel:093-494-9511"
-              className="flex items-center bg-white/90 backdrop-blur px-8 py-4 rounded-full hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
-            >
-              <Phone className="w-5 h-5 mr-3 text-red-500" />
-              <span className="font-medium">093-494-9511</span>
-            </a>
-          </div>
-          <div className="flex justify-center space-x-8">
-            <a
-              href="https://linkedin.com/in/thithada"
-              className="bg-white/90 backdrop-blur p-4 rounded-full hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
-            >
-              <Linkedin className="w-6 h-6 text-gray-700 group-hover:text-white" />
-            </a>
-            <a
-              href="https://github.com/thithada"
-              className="bg-white/90 backdrop-blur p-4 rounded-full hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
-            >
-              <Github className="w-6 h-6 text-gray-700 group-hover:text-white" />
-            </a>
+          
+          <div className="grid md:grid-cols-2 gap-16">
+            {/* Contact Info */}
+            <div className="space-y-8">
+              <p className="text-2xl text-gray-600 leading-relaxed">
+                I'm currently seeking internship opportunities in DevOps and
+                Full-Stack Development. Let's connect!
+              </p>
+              
+              <div className="space-y-6">
+                <a
+                  href="mailto:madname00@gmail.com"
+                  className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
+                >
+                  <Mail className="w-5 h-5 mr-4 text-red-500" />
+                  <span className="font-medium">madname00@gmail.com</span>
+                </a>
+                
+                <a
+                  href="tel:093-494-9511"
+                  className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
+                >
+                  <Phone className="w-5 h-5 mr-4 text-red-500" />
+                  <span className="font-medium">093-494-9511</span>
+                </a>
+              </div>
+              
+              <div className="flex space-x-6 pt-6">
+                <a
+                  href="https://linkedin.com/in/thithada"
+                  className="bg-white/90 backdrop-blur p-4 rounded-2xl hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
+                >
+                  <Linkedin className="w-6 h-6 text-gray-700 group-hover:text-white" />
+                </a>
+                <a
+                  href="https://github.com/thithada"
+                  className="bg-white/90 backdrop-blur p-4 rounded-2xl hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
+                >
+                  <Github className="w-6 h-6 text-gray-700 group-hover:text-white" />
+                </a>
+              </div>
+            </div>
+            
+            {/* Contact Form */}
+            <div className="bg-white/90 backdrop-blur rounded-2xl p-8 shadow-xl border border-gray-200">
+              <div className="flex items-center mb-6">
+                <MessageCircle className="w-6 h-6 text-red-500 mr-3" />
+                <h3 className="text-2xl font-semibold text-gray-800">Send a Message</h3>
+              </div>
+              
+              <div className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleFormChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur"
+                      placeholder="your.email@example.com"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleFormChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur"
+                    placeholder="What's this about?"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Message
+                  </label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleFormChange}
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur resize-none"
+                    placeholder="Your message here..."
+                  />
+                </div>
+                
+                <button
+                  onClick={handleFormSubmit}
+                  disabled={isFormSubmitting}
+                  className="w-full bg-red-500 hover:bg-red-600 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 disabled:transform-none shadow-lg flex items-center justify-center"
+                >
+                  {isFormSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5 mr-3" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+                
+                {/* Form Status Messages */}
+                {formStatus === 'success' && (
+                  <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                    <p className="font-medium">✅ Message sent successfully!</p>
+                    <p className="text-sm">Thank you for reaching out. I'll get back to you soon!</p>
+                  </div>
+                )}
+                
+                {formStatus === 'error' && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                    <p className="font-medium">❌ Failed to send message.</p>
+                    <p className="text-sm">Please try again or contact me directly via email.</p>
+                  </div>
+                )}
+                
+                {formStatus === 'validation' && (
+                  <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded-lg">
+                    <p className="font-medium">⚠️ Please fill in all fields.</p>
+                    <p className="text-sm">All fields are required to send your message.</p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -520,6 +755,29 @@ const Portfolio = () => {
           </p>
         </div>
       </footer>
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-red-500 hover:bg-red-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-50 group"
+          aria-label="Scroll to top"
+        >
+          <svg 
+            className="w-6 h-6 transition-transform duration-300 group-hover:-translate-y-1" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M5 10l7-7m0 0l7 7m-7-7v18" 
+            />
+          </svg>
+        </button>
+      )}
     </div>
   );
 };
