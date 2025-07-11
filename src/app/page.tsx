@@ -290,7 +290,7 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50 shadow-sm transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <nav className={`fixed top-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-200 z-50 shadow-sm transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto px-8 py-6">
           <div className="flex justify-between items-center">
             {/* Left - Brand */}
@@ -298,8 +298,8 @@ const Portfolio = () => {
               onClick={scrollToTop}
               className="text-2xl font-bold relative group"
             >
-              <span className="text-gray-800 group-hover:text-red-500 transition-colors">Me</span>
-              <span className="text-red-500 group-hover:text-gray-800 transition-colors">Tomas</span>
+              <span className="text-gray-900 group-hover:text-red-500 transition-colors">Me</span>
+              <span className="text-red-500 group-hover:text-gray-900 transition-colors">Tomas</span>
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
             </button>
             
@@ -307,21 +307,21 @@ const Portfolio = () => {
             <div className="hidden md:flex space-x-12">
               <button
                 onClick={() => scrollToSection("about")}
-                className="relative text-lg text-gray-700 hover:text-red-500 transition-colors font-medium group py-2"
+                className="relative text-lg text-gray-800 hover:text-red-500 transition-colors font-medium group py-2"
               >
                 About
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
               </button>
               <button
                 onClick={() => scrollToSection("projects")}
-                className="relative text-lg text-gray-700 hover:text-red-500 transition-colors font-medium group py-2"
+                className="relative text-lg text-gray-800 hover:text-red-500 transition-colors font-medium group py-2"
               >
                 Projects
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
               </button>
               <button
                 onClick={() => scrollToSection("skills")}
-                className="relative text-lg text-gray-700 hover:text-red-500 transition-colors font-medium group py-2"
+                className="relative text-lg text-gray-800 hover:text-red-500 transition-colors font-medium group py-2"
               >
                 Skills
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
@@ -374,21 +374,21 @@ const Portfolio = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-6 bg-white/70 backdrop-blur-sm">
+      <section id="about" className="py-20 px-6 bg-white/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-gray-800 mb-4">About Me</h2>
+            <h2 className="text-5xl font-light text-gray-900 mb-4">About Me</h2>
             <div className="w-20 h-1 bg-red-500 mx-auto"></div>
           </div>
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-xl text-gray-800 leading-relaxed">
                 I'm a Software Engineering student with growing interest in
                 DevOps and automation. I enjoy learning about different
                 technologies and how teams collaborate to build and deploy
                 software efficiently.
               </p>
-              <p className="text-xl text-gray-600 leading-relaxed">
+              <p className="text-xl text-gray-800 leading-relaxed">
                 Looking for an internship opportunity to expand my knowledge,
                 contribute to projects, and learn from experienced professionals
                 in a team environment.
@@ -397,7 +397,7 @@ const Portfolio = () => {
                 <div className="flex items-center">
                   <div className="w-2 h-2 bg-red-500 rounded-full mr-4"></div>
                   <MapPin className="w-5 h-5 text-red-500 mr-3" />
-                  <span className="text-gray-700 text-lg">
+                  <span className="text-gray-900 text-lg font-medium">
                     University of Phayao
                   </span>
                 </div>
@@ -406,7 +406,7 @@ const Portfolio = () => {
                   <span className="w-5 h-5 text-red-500 mr-3 text-center text-lg">
                     🎓
                   </span>
-                  <span className="text-gray-700 text-lg">
+                  <span className="text-gray-900 text-lg font-medium">
                     Software Engineering (2023 - Present)
                   </span>
                 </div>
@@ -415,12 +415,12 @@ const Portfolio = () => {
                   <span className="w-5 h-5 text-red-500 mr-3 text-center text-lg">
                     📊
                   </span>
-                  <span className="text-gray-700 text-lg">GPA: 3.39</span>
+                  <span className="text-gray-900 text-lg font-medium">GPA: 3.39</span>
                 </div>
               </div>
             </div>
             <div className="space-y-8">
-              <h3 className="text-3xl font-light text-gray-800 mb-6">
+              <h3 className="text-3xl font-light text-gray-900 mb-6">
                 Interests
               </h3>
               <div className="grid grid-cols-2 gap-4">
@@ -434,9 +434,9 @@ const Portfolio = () => {
                 ].map((interest, index) => (
                   <div
                     key={index}
-                    className="bg-white/80 backdrop-blur rounded-xl p-4 text-center hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-sm hover:shadow-md transform hover:scale-105"
+                    className="bg-white/90 backdrop-blur rounded-xl p-4 text-center hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-sm hover:shadow-md transform hover:scale-105"
                   >
-                    <span className="font-medium">{interest}</span>
+                    <span className="font-medium text-gray-900 group-hover:text-white">{interest}</span>
                   </div>
                 ))}
               </div>
@@ -449,40 +449,40 @@ const Portfolio = () => {
       <section id="projects" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-gray-800 mb-4">Projects</h2>
+            <h2 className="text-5xl font-light text-gray-900 mb-4">Projects</h2>
             <div className="w-20 h-1 bg-red-500 mx-auto"></div>
           </div>
           <div className="grid lg:grid-cols-2 gap-8">
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="bg-white/80 backdrop-blur rounded-2xl p-8 hover:transform hover:scale-105 transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg hover:shadow-xl group"
+                className="bg-white/90 backdrop-blur rounded-2xl p-8 hover:transform hover:scale-105 transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg hover:shadow-xl group"
               >
                 <div className="flex justify-between items-start mb-6">
-                  <h3 className="text-2xl font-semibold text-gray-800 group-hover:text-red-500 transition-colors">
+                  <h3 className="text-2xl font-semibold text-gray-900 group-hover:text-red-500 transition-colors">
                     {project.title}
                   </h3>
                   <span className="text-sm bg-red-500 text-white px-4 py-2 rounded-full font-medium">
                     {project.category}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 mb-3 font-medium uppercase tracking-wide">
+                <p className="text-sm text-gray-600 mb-3 font-medium uppercase tracking-wide">
                   {project.type}
                 </p>
                 <p className="text-sm text-red-600 mb-4 font-medium">
                   <strong>Role:</strong> {project.role}
                 </p>
-                <p className="text-gray-700 mb-4 leading-relaxed text-lg">
+                <p className="text-gray-800 mb-4 leading-relaxed text-lg">
                   {project.description}
                 </p>
-                <p className="text-sm text-gray-600 mb-6 italic">
+                <p className="text-sm text-gray-700 mb-6 italic">
                   <strong>Learned:</strong> {project.learned}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tech.split(", ").map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="text-sm bg-gray-100 text-gray-700 px-3 py-1 rounded-full border"
+                      className="text-sm bg-gray-100 text-gray-800 px-3 py-1 rounded-full border"
                     >
                       {tech}
                     </span>
@@ -499,14 +499,14 @@ const Portfolio = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 px-6 bg-white/70 backdrop-blur-sm">
+      <section id="skills" className="py-20 px-6 bg-white/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-gray-800 mb-4">
+            <h2 className="text-5xl font-light text-gray-900 mb-4">
               Skills & Tools
             </h2>
             <div className="w-20 h-1 bg-red-500 mx-auto mb-6"></div>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-gray-800">
               Click on any skill to learn more about my experience
             </p>
           </div>
@@ -518,15 +518,15 @@ const Portfolio = () => {
                 className="bg-white/90 backdrop-blur rounded-2xl p-6 hover:transform hover:scale-105 transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl border border-gray-200 hover:border-red-500 group"
               >
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gray-800 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-500 transition-colors border group-hover:border-red-500">
+                  <div className="w-16 h-16 bg-gray-900 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-red-500 transition-colors border group-hover:border-red-500">
                     <span className="text-sm font-bold text-white">
                       {skill.logo}
                     </span>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-800 group-hover:text-red-500 transition-colors">
+                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-red-500 transition-colors">
                     {skill.name}
                   </h3>
-                  <p className="text-sm text-gray-500 mt-2">{skill.category}</p>
+                  <p className="text-sm text-gray-600 mt-2">{skill.category}</p>
                 </div>
               </div>
             ))}
@@ -547,7 +547,7 @@ const Portfolio = () => {
           <div className="bg-white rounded-2xl p-10 max-w-md w-full relative border shadow-2xl">
             <button
               onClick={closeSkillModal}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors"
             >
               <svg
                 className="w-6 h-6"
@@ -565,19 +565,19 @@ const Portfolio = () => {
             </button>
 
             <div className="text-center">
-              <div className="w-20 h-20 bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-6 border">
+              <div className="w-20 h-20 bg-gray-900 rounded-2xl flex items-center justify-center mx-auto mb-6 border">
                 <span className="text-lg font-bold text-white">
                   {selectedSkill.logo}
                 </span>
               </div>
 
-              <h3 className="text-3xl font-bold text-gray-800 mb-2">
+              <h3 className="text-3xl font-bold text-gray-900 mb-2">
                 {selectedSkill.name}
               </h3>
               <p className="text-red-500 text-sm mb-6 font-medium uppercase tracking-wide">
                 {selectedSkill.category}
               </p>
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <p className="text-gray-800 leading-relaxed text-lg">
                 {selectedSkill.description}
               </p>
             </div>
@@ -589,7 +589,7 @@ const Portfolio = () => {
       <section id="contact" className="py-20 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-light text-gray-800 mb-4">
+            <h2 className="text-5xl font-light text-gray-900 mb-4">
               Get In Touch
             </h2>
             <div className="w-20 h-1 bg-red-500 mx-auto"></div>
@@ -598,7 +598,7 @@ const Portfolio = () => {
           <div className="grid md:grid-cols-2 gap-16">
             {/* Contact Info */}
             <div className="space-y-8">
-              <p className="text-2xl text-gray-600 leading-relaxed">
+              <p className="text-2xl text-gray-800 leading-relaxed">
                 I'm currently seeking internship opportunities in DevOps and
                 Full-Stack Development. Let's connect!
               </p>
@@ -606,18 +606,18 @@ const Portfolio = () => {
               <div className="space-y-6">
                 <a
                   href="mailto:madname00@gmail.com"
-                  className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
+                  className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105 group"
                 >
-                  <Mail className="w-5 h-5 mr-4 text-red-500" />
-                  <span className="font-medium">madname00@gmail.com</span>
+                  <Mail className="w-5 h-5 mr-4 text-red-500 group-hover:text-white" />
+                  <span className="font-medium text-gray-900 group-hover:text-white">madname00@gmail.com</span>
                 </a>
                 
                 <a
                   href="tel:093-494-9511"
-                  className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105"
+                  className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105 group"
                 >
-                  <Phone className="w-5 h-5 mr-4 text-red-500" />
-                  <span className="font-medium">093-494-9511</span>
+                  <Phone className="w-5 h-5 mr-4 text-red-500 group-hover:text-white" />
+                  <span className="font-medium text-gray-900 group-hover:text-white">093-494-9511</span>
                 </a>
               </div>
               
@@ -626,13 +626,13 @@ const Portfolio = () => {
                   href="https://linkedin.com/in/thithada"
                   className="bg-white/90 backdrop-blur p-4 rounded-2xl hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
                 >
-                  <Linkedin className="w-6 h-6 text-gray-700 group-hover:text-white" />
+                  <Linkedin className="w-6 h-6 text-gray-800 group-hover:text-white" />
                 </a>
                 <a
                   href="https://github.com/thithada"
                   className="bg-white/90 backdrop-blur p-4 rounded-2xl hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
                 >
-                  <Github className="w-6 h-6 text-gray-700 group-hover:text-white" />
+                  <Github className="w-6 h-6 text-gray-800 group-hover:text-white" />
                 </a>
               </div>
             </div>
@@ -641,13 +641,13 @@ const Portfolio = () => {
             <div className="bg-white/90 backdrop-blur rounded-2xl p-8 shadow-xl border border-gray-200">
               <div className="flex items-center mb-6">
                 <MessageCircle className="w-6 h-6 text-red-500 mr-3" />
-                <h3 className="text-2xl font-semibold text-gray-800">Send a Message</h3>
+                <h3 className="text-2xl font-semibold text-gray-900">Send a Message</h3>
               </div>
               
               <div className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-800 mb-2">
                       Name
                     </label>
                     <input
@@ -655,12 +655,12 @@ const Portfolio = () => {
                       name="name"
                       value={formData.name}
                       onChange={handleFormChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur text-gray-900"
                       placeholder="Your name"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-800 mb-2">
                       Email
                     </label>
                     <input
@@ -668,14 +668,14 @@ const Portfolio = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleFormChange}
-                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur"
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur text-gray-900"
                       placeholder="your.email@example.com"
                     />
                   </div>
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-800 mb-2">
                     Subject
                   </label>
                   <input
@@ -683,13 +683,13 @@ const Portfolio = () => {
                     name="subject"
                     value={formData.subject}
                     onChange={handleFormChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur text-gray-900"
                     placeholder="What's this about?"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-800 mb-2">
                     Message
                   </label>
                   <textarea
@@ -697,7 +697,7 @@ const Portfolio = () => {
                     value={formData.message}
                     onChange={handleFormChange}
                     rows={5}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/50 backdrop-blur resize-none"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur resize-none text-gray-900"
                     placeholder="Your message here..."
                   />
                 </div>
@@ -722,21 +722,21 @@ const Portfolio = () => {
                 
                 {/* Form Status Messages */}
                 {formStatus === 'success' && (
-                  <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+                  <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
                     <p className="font-medium">✅ Message sent successfully!</p>
                     <p className="text-sm">Thank you for reaching out. I'll get back to you soon!</p>
                   </div>
                 )}
                 
                 {formStatus === 'error' && (
-                  <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                  <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
                     <p className="font-medium">❌ Failed to send message.</p>
                     <p className="text-sm">Please try again or contact me directly via email.</p>
                   </div>
                 )}
                 
                 {formStatus === 'validation' && (
-                  <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded-lg">
+                  <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg">
                     <p className="font-medium">⚠️ Please fill in all fields.</p>
                     <p className="text-sm">All fields are required to send your message.</p>
                   </div>
@@ -748,9 +748,9 @@ const Portfolio = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-white/80 backdrop-blur border-t border-gray-200">
+      <footer className="py-12 px-6 bg-white/90 backdrop-blur border-t border-gray-200">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-gray-500 text-lg">
+          <p className="text-gray-700 text-lg">
             © 2024 Thithada Islam. Built with Next.js and Tailwind CSS.
           </p>
         </div>
