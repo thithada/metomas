@@ -6,6 +6,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true, // ข้าม TypeScript errors ตอน build
   },
+  output: 'standalone',
 }
 
 module.exports = nextConfig

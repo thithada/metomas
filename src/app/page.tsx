@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Phone, MapPin, ExternalLink, ChevronDown, Send, User, MessageCircle } from 'lucide-react';
 
@@ -296,11 +297,11 @@ const Portfolio = () => {
             {/* Left - Brand */}
             <button 
               onClick={scrollToTop}
-              className="text-2xl font-bold relative group"
+              className="text-4xl font-bold relative group"
             >
               <span className="text-gray-900 group-hover:text-red-500 transition-colors">Me</span>
               <span className="text-red-500 group-hover:text-gray-900 transition-colors">Tomas</span>
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.75 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
             </button>
             
             {/* Center - Main Navigation */}
@@ -332,9 +333,9 @@ const Portfolio = () => {
             <div className="hidden md:block">
               <button
                 onClick={() => scrollToSection("contact")}
-                className="relative bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                className="relative bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
               >
-                Contact
+                Contact Me
               </button>
             </div>
           </div>
@@ -353,7 +354,13 @@ const Portfolio = () => {
           >
             <div className="text-center mb-12">
               <h1 className="text-9xl md:text-10xl lg:text-11xl font-extrabold mb-6 text-gray-900 tracking-tight">
-                I'm
+                This
+              </h1>
+              <h1 className="text-9xl md:text-10xl lg:text-11xl font-extrabold mb-6 text-red-500 tracking-tight">
+                Is
+              </h1>
+              <h1 className="text-9xl md:text-10xl lg:text-11xl font-extrabold mb-6 text-gray-900 tracking-tight">
+                Me
               </h1>
               <h1 className="text-9xl md:text-10xl lg:text-11xl font-extrabold mb-6 text-red-500 tracking-tight">
                 Tomas

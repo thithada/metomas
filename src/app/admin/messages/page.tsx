@@ -1,5 +1,6 @@
 //src\admin\messages\page.tsx
 import { PrismaClient } from '@prisma/client';
+export const runtime = 'nodejs';
 
 const prisma = new PrismaClient();
 
