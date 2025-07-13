@@ -185,12 +185,13 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ openSkillModal }) => {
   ];
 
   return (
-    <section id="skills" className="py-20 px-6 bg-">
+    <section id="skills" className="py-20 px-6 bg-gray-50">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-5xl font-bold text-red-800 mb-4">
-            Skills & Tools
+          <h2 className="text-5xl font-light text-gray-900 mb-4 drop-shadow-lg" style={{ letterSpacing: '1px' }}>
+            Skills
           </h2>
+          <div className="w-20 h-1 bg-red-800 mx-auto shadow-md shadow-red-800/50"></div>       
         </div>
         
         {/* First Row - 6 skills */}
@@ -214,6 +215,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ openSkillModal }) => {
                     <div className="text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300 ease-in-out">
                       {skill.logo}
                     </div>
+                    
                   )}
                 </div>
                 <span className="text-lg font-semibold text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300 ease-in-out">
@@ -269,7 +271,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ openSkillModal }) => {
               <div className="flex items-center justify-center gap-3">
                 <div className="flex items-center justify-center transition-all duration-300 ease-in-out group-hover:drop-shadow-lg">
                   {typeof skill.logo === 'string' ? (
-                    <span className="text-2xl font-bold text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300 ease-in-out">
+                    <span className="text-2xl  text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300 ease-in-out">
                       {skill.logo}
                     </span>
                   ) : (
@@ -285,6 +287,37 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ openSkillModal }) => {
             </div>
           ))}
         </div>
+        
+        {/* Fourth Row - 2 skills */}
+        <div className="flex flex-wrap gap-4 justify-center">
+          {skills.slice(15).map((skill, index) => (
+            <div
+              key={index + 15}
+              onClick={() => openSkillModal(skill)}
+              className="bg-white rounded-lg px-6 py-4 hover:transform hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer shadow-lg hover:shadow-xl border-2 border-gray-200 hover:border-red-800 hover:bg-black group hover:shadow-red-800/30"
+              style={{
+                transition: 'all 0.4s ease-in-out',
+              }}
+            >
+              <div className="flex items-center justify-center gap-3">
+                <div className="flex items-center justify-center transition-all duration-300 ease-in-out group-hover:drop-shadow-lg">
+                  {typeof skill.logo === 'string' ? (
+                    <span className="text-2xl font-bold text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300 ease-in-out">
+                      {skill.logo}
+                    </span>
+                  ) : (
+                    <div className="text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300 ease-in-out">
+                      {skill.logo}
+                    </div>
+                  )}
+                </div>
+                <span className="text-lg font-bold text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300 ease-in-out" style={{ letterSpacing: '0.3px' }}>
+                  {skill.name}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>        
       </div>
 
       {/* Custom Styles */}

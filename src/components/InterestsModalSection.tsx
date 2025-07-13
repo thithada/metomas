@@ -184,13 +184,10 @@ const InterestsModalSection: React.FC = () => {
       >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-light mb-4 text-gray-900">
+            <h2 className="text-5xl font-light mb-4 text-gray-900 drop-shadow-lg" style={{ letterSpacing: '1px' }}>
               Interests
             </h2>
-            <div className="w-20 h-1 bg-red-500 mx-auto mb-6"></div>
-            <p className="text-xl text-gray-800">
-              Click on any interest to learn more about my passion
-            </p>
+            <div className="w-20 h-1 bg-red-800 mx-auto mb-6 shadow-md shadow-red-800/50"></div>       
           </div>
           
           {/* Static Grid Container with Fade-in Animation */}
@@ -260,9 +257,9 @@ const InterestsModalSection: React.FC = () => {
             <div className="text-center p-8">
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 p-2 rounded-full bg-gray-500/20 hover:bg-gray-500/30 transition-colors"
+                className="absolute top-4 right-4 p-2 rounded-full bg-black/20 hover:bg-red-800/30 transition-all duration-300 border border-red-800/30 hover:border-red-800"
               >
-                <X className="w-6 h-6 text-gray-700" />
+                <X className="w-6 h-6 text-gray-700 hover:text-red-800 transition-colors duration-300" />
               </button>
               
               <div className={`w-16 h-16 mx-auto mb-4 flex items-center justify-center text-red-800 drop-shadow-lg`}>
@@ -271,7 +268,7 @@ const InterestsModalSection: React.FC = () => {
               <h3 className={`text-3xl font-bold mb-4 text-red-800 drop-shadow-lg`} style={{ letterSpacing: '1px' }}>
                 {selectedInterest.name}
               </h3>
-              <p className="text-gray-800 text-xl leading-relaxed max-w-3xl mx-auto mb-6">
+              <p className="text-gray-800 text-xl leading-relaxed max-w-3xl mx-auto mb-8 font-medium drop-shadow-sm" style={{ letterSpacing: '0.3px' }}>
                 {selectedInterest.description}
               </p>
               
@@ -289,7 +286,11 @@ const InterestsModalSection: React.FC = () => {
               
               <button
                 onClick={closeModal}
-                className="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-full transition-colors"
+                className="px-8 py-3 bg-black hover:bg-red-800 text-white rounded-lg font-bold transition-all duration-300 ease-in-out border-2 border-red-800 hover:border-white shadow-lg hover:shadow-xl drop-shadow-lg"
+                style={{ 
+                  letterSpacing: '0.5px',
+                  boxShadow: '0 0 15px rgba(153, 27, 27, 0.4)'
+                }}
               >
                 Close
               </button>
@@ -312,9 +313,9 @@ const InterestsModalSection: React.FC = () => {
           <div className="relative max-w-5xl max-h-[90vh] w-full">
             <button
               onClick={closeImageModal}
-              className="absolute -top-12 right-0 text-white hover:text-red-400 transition-colors z-10 p-2"
+              className="absolute -top-12 right-0 p-2 rounded-lg bg-black/50 hover:bg-red-800/80 border border-red-800/50 hover:border-red-800 transition-all duration-300"
             >
-              <X className="w-8 h-8" />
+              <X className="w-8 h-8 text-white hover:text-white transition-colors duration-300" />
             </button>
             <img 
               src={selectedImage} 

@@ -29,10 +29,18 @@ body {
   width: 8px;
   height: 8px;
 }
+
+
 ::-webkit-scrollbar-thumb {
-  background-color: #3b82f6;
+  background-color: #B10000; /* แดงเลือด */
   border-radius: 9999px;
+  border: 2px solid #ffffff; /* ขอบขาวช่วยให้ดูมีขอบ */
 }
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #8B0000; /* แดงเข้มขึ้นเมื่อ hover */
+}
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #f5f5f5; /* พื้น scrollbar จาง */
 }

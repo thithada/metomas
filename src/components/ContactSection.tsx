@@ -1,8 +1,8 @@
 // src/components/ContactSection.tsx
 'use client'
 
-import React, { useState } from 'react';
-import { Github, Linkedin, Mail, Phone, Send, MessageCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Mail, Send, MessageCircle, Sword, X } from 'lucide-react';
 
 const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,8 @@ const ContactSection: React.FC = () => {
   });
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -65,170 +67,288 @@ const ContactSection: React.FC = () => {
     }
   };
 
-  return (
-    <section id="contact" className="py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl font-light text-gray-900 mb-4">
-            Get In Touch
-          </h2>
-          <div className="w-20 h-1 bg-red-500 mx-auto"></div>
-        </div>
+  // Handle modal open
+  const handleOpenModal = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setShowModal(true);
+      setIsTransitioning(false);
+    }, 150);
+  };
+
+  // Handle modal close
+  const closeModal = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setShowModal(false);
+      setFormStatus('');
+      setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300);
+    }, 150);
+  };
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showModal) {
+      const scrollY = window.scrollY;
+      
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      
+      return () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
         
-        <div className="grid md:grid-cols-2 gap-16">
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <p className="text-2xl text-gray-800 leading-relaxed">
-              I'm currently seeking internship opportunities in DevOps and
-              Full-Stack Development. Let's connect!
+        window.scrollTo(0, scrollY);
+      };
+    }
+  }, [showModal]);
+
+  return (
+    <>
+      <section id="contact" className="py-20 px-6 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-light text-gray-900 mb-4 drop-shadow-lg" style={{ letterSpacing: '1px' }}>
+              Get In Touch
+            </h2>
+            <div className="w-20 h-1 bg-red-800 mx-auto shadow-md shadow-red-800/50"></div>
+            <p className="text-xl text-gray-600 mt-6 font-medium drop-shadow-sm" style={{ letterSpacing: '0.3px' }}>
+              Ready to forge new partnerships and opportunities
             </p>
-            
-            <div className="space-y-6">
-              <a
-                href="mailto:madname00@gmail.com"
-                className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105 group"
-              >
-                <Mail className="w-5 h-5 mr-4 text-red-500 group-hover:text-white" />
-                <span className="font-medium text-gray-900 group-hover:text-white">madname00@gmail.com</span>
-              </a>
-              
-              <a
-                href="tel:093-494-9511"
-                className="flex items-center bg-white/90 backdrop-blur px-6 py-4 rounded-2xl hover:bg-red-500 hover:text-white transition-all duration-300 border border-gray-200 hover:border-red-500 shadow-lg transform hover:scale-105 group"
-              >
-                <Phone className="w-5 h-5 mr-4 text-red-500 group-hover:text-white" />
-                <span className="font-medium text-gray-900 group-hover:text-white">093-494-9511</span>
-              </a>
-            </div>
-            
-            <div className="flex space-x-6 pt-6">
-              <a
-                href="https://linkedin.com/in/thithada"
-                className="bg-white/90 backdrop-blur p-4 rounded-2xl hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
-              >
-                <Linkedin className="w-6 h-6 text-gray-800 group-hover:text-white" />
-              </a>
-              <a
-                href="https://github.com/thithada"
-                className="bg-white/90 backdrop-blur p-4 rounded-2xl hover:bg-red-500 transition-all duration-300 transform hover:scale-110 border border-gray-200 hover:border-red-500 shadow-lg group"
-              >
-                <Github className="w-6 h-6 text-gray-800 group-hover:text-white" />
-              </a>
-            </div>
           </div>
           
-          {/* Contact Form */}
-          <div className="bg-white/90 backdrop-blur rounded-2xl p-8 shadow-xl border border-gray-200">
-            <div className="flex items-center mb-6">
-              <MessageCircle className="w-6 h-6 text-red-500 mr-3" />
-              <h3 className="text-2xl font-semibold text-gray-900">Send a Message</h3>
+          <div className="grid md:grid-cols-2 gap-16">
+            {/* Contact Info */}
+            <div>
+              <div className="bg-black/95 p-8 rounded-lg border-l-4 border-red-800 shadow-xl">
+                <h3 className="text-2xl font-bold text-white drop-shadow-lg mb-4" style={{ letterSpacing: '0.5px' }}>
+                  The Way of the Developer
+                </h3>
+                <p className="text-gray-300 text-xl leading-relaxed font-medium" style={{ letterSpacing: '0.2px' }}>
+                  I'm currently seeking <span className="text-red-800 font-bold">internship opportunities</span> in DevOps and
+                  Full-Stack Development. Let's connect and create something powerful together!
+                </p>
+              </div>
             </div>
             
-            <form onSubmit={handleFormSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
+            {/* Send a Message Box */}
+            <div 
+              onClick={handleOpenModal}
+              className="cursor-pointer bg-white/95 backdrop-blur rounded-lg p-8 shadow-xl border-2 border-gray-200 hover:bg-black transition-all duration-300 ease-in-out transform hover:scale-105 hover:border-red-800 group h-full"
+              style={{ transition: 'all 0.4s ease-in-out' }}
+            >
+              <div className="text-center h-full flex flex-col justify-center">
+                <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg transition-all duration-300">
+                  <MessageCircle className="w-12 h-12" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 group-hover:text-red-800 drop-shadow-sm transition-all duration-300" style={{ letterSpacing: '0.5px' }}>
+                  Send a Message
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Modal */}
+      {showModal && (
+        <div 
+          className={`fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all duration-500 ease-out ${
+            showModal && !isTransitioning ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{
+            animation: showModal && !isTransitioning ? 'fadeInModal 0.5s ease-out forwards' : 'none'
+          }}
+          onClick={closeModal}
+        >
+          <div 
+            className={`bg-white/95 backdrop-blur rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-gray-200 transform transition-all duration-500 ease-out ${
+              showModal && !isTransitioning ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-8'
+            }`}
+            style={{
+              animation: showModal && !isTransitioning ? 'slideInModal 0.5s ease-out forwards' : 'none'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Content */}
+            <div className="p-8">
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 p-2 rounded-full bg-black/20 hover:bg-red-800/30 transition-all duration-300 border border-red-800/30 hover:border-red-800"
+              >
+                <X className="w-6 h-6 text-gray-700 hover:text-red-800 transition-colors duration-300" />
+              </button>
+              
+              {/* Modal Header */}
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center text-red-800 drop-shadow-lg">
+                  <MessageCircle className="w-12 h-12" />
+                </div>
+                <h3 className="text-3xl font-bold mb-4 text-red-800 drop-shadow-lg" style={{ letterSpacing: '1px' }}>
+                  Send a Message
+                </h3>
+              </div>
+
+              {/* Contact Form */}
+              <form onSubmit={handleFormSubmit} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-bold text-gray-800 mb-2" style={{ letterSpacing: '0.5px' }}>
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleFormChange}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 bg-white/90 backdrop-blur text-gray-900 font-medium"
+                      placeholder="Your name"
+                      style={{ letterSpacing: '0.3px' }}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold text-gray-800 mb-2" style={{ letterSpacing: '0.5px' }}>
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleFormChange}
+                      className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 bg-white/90 backdrop-blur text-gray-900 font-medium"
+                      placeholder="your.email@example.com"
+                      style={{ letterSpacing: '0.3px' }}
+                    />
+                  </div>
+                </div>
+                
                 <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">
-                    Name
+                  <label className="block text-sm font-bold text-gray-800 mb-2" style={{ letterSpacing: '0.5px' }}>
+                    Subject
                   </label>
                   <input
                     type="text"
-                    name="name"
-                    value={formData.name}
+                    name="subject"
+                    value={formData.subject}
                     onChange={handleFormChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur text-gray-900"
-                    placeholder="Your name"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 bg-white/90 backdrop-blur text-gray-900 font-medium"
+                    placeholder="What's this about?"
+                    style={{ letterSpacing: '0.3px' }}
                   />
                 </div>
+                
                 <div>
-                  <label className="block text-sm font-medium text-gray-800 mb-2">
-                    Email
+                  <label className="block text-sm font-bold text-gray-800 mb-2" style={{ letterSpacing: '0.5px' }}>
+                    Message
                   </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
+                  <textarea
+                    name="message"
+                    value={formData.message}
                     onChange={handleFormChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur text-gray-900"
-                    placeholder="your.email@example.com"
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 bg-white/90 backdrop-blur resize-none text-gray-900 font-medium"
+                    placeholder="Your message here..."
+                    style={{ letterSpacing: '0.3px' }}
                   />
                 </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-800 mb-2">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleFormChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur text-gray-900"
-                  placeholder="What's this about?"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-800 mb-2">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleFormChange}
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all duration-300 bg-white/70 backdrop-blur resize-none text-gray-900"
-                  placeholder="Your message here..."
-                />
-              </div>
-              
-              <button
-                type="submit"
-                disabled={isFormSubmitting}
-                className="w-full bg-red-500 hover:bg-red-600 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 disabled:transform-none shadow-lg flex items-center justify-center"
-              >
-                {isFormSubmitting ? (
-                  <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5 mr-3" />
-                    Send Message
-                  </>
+                
+                <button
+                  type="submit"
+                  disabled={isFormSubmitting}
+                  className="w-full bg-black hover:bg-red-800 disabled:bg-gray-400 text-white py-4 px-6 rounded-lg font-bold transition-all duration-300 ease-in-out transform hover:scale-105 disabled:transform-none shadow-lg flex items-center justify-center border-2 border-red-800 hover:border-white group"
+                  style={{ 
+                    letterSpacing: '0.5px',
+                    boxShadow: '0 0 15px rgba(153, 27, 27, 0.4)'
+                  }}
+                >
+                  {isFormSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                      Sending Message...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-6 h-6 mr-3 group-hover:translate-x-1 transition-transform duration-300" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+                
+                <div className="text-center">
+                  <p className="text-gray-600 font-medium" style={{ letterSpacing: '0.3px' }}>
+                    or <a href="mailto:madname00@gmail.com" className="text-red-800 hover:text-red-600 font-bold underline transition-colors duration-300">madname00@gmail.com</a>
+                  </p>
+                </div>
+                
+                {/* Form Status Messages */}
+                {formStatus === 'success' && (
+                  <div className="bg-black/95 border-2 border-green-600 text-white px-6 py-4 rounded-lg shadow-lg">
+                    <p className="font-bold text-green-400" style={{ letterSpacing: '0.3px' }}>✅ Message sent successfully!</p>
+                    <p className="text-sm text-gray-300 mt-1">Thank you for reaching out. I'll get back to you soon!</p>
+                  </div>
                 )}
-              </button>
-              
-              {/* Form Status Messages */}
-              {formStatus === 'success' && (
-                <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
-                  <p className="font-medium">✅ Message sent successfully!</p>
-                  <p className="text-sm">Thank you for reaching out. I'll get back to you soon!</p>
-                </div>
-              )}
-              
-              {formStatus === 'error' && (
-                <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
-                  <p className="font-medium">❌ Failed to send message.</p>
-                  <p className="text-sm">Please try again or contact me directly via email.</p>
-                </div>
-              )}
-              
-              {formStatus === 'validation' && (
-                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg">
-                  <p className="font-medium">⚠️ Please fill in all fields.</p>
-                  <p className="text-sm">All fields are required to send your message.</p>
-                </div>
-              )}
-            </form>
+                
+                {formStatus === 'error' && (
+                  <div className="bg-black/95 border-2 border-red-600 text-white px-6 py-4 rounded-lg shadow-lg">
+                    <p className="font-bold text-red-400" style={{ letterSpacing: '0.3px' }}>❌ Failed to send message.</p>
+                    <p className="text-sm text-gray-300 mt-1">Please try again or contact me directly via email.</p>
+                  </div>
+                )}
+                
+                {formStatus === 'validation' && (
+                  <div className="bg-black/95 border-2 border-yellow-600 text-white px-6 py-4 rounded-lg shadow-lg">
+                    <p className="font-bold text-yellow-400" style={{ letterSpacing: '0.3px' }}>⚠️ Please fill in all fields.</p>
+                    <p className="text-sm text-gray-300 mt-1">All fields are required to send your message.</p>
+                  </div>
+                )}
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      )}
+
+      {/* Animation Styles */}
+      <style jsx>{`
+        @keyframes fadeInModal {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+        
+        @keyframes slideInModal {
+          0% {
+            opacity: 0;
+            transform: translateY(32px) scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+        
+        .group:hover {
+          box-shadow: 0 0 15px rgba(153, 27, 27, 0.4) !important;
+        }
+        
+        .group {
+          border-style: solid !important;
+        }
+        
+        input:focus, textarea:focus {
+          box-shadow: 0 0 10px rgba(153, 27, 27, 0.3) !important;
+        }
+      `}</style>
+    </>
   );
 };
 
 export default ContactSection;
-
-// ===========================

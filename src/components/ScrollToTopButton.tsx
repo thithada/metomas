@@ -2,6 +2,7 @@
 'use client'
 
 import React from 'react';
+import { ChevronUp } from 'lucide-react';
 
 interface ScrollToTopButtonProps {
   showScrollTop: boolean;
@@ -17,22 +18,36 @@ const ScrollToTopButton: React.FC<ScrollToTopButtonProps> = ({
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-8 right-8 bg-red-500 hover:bg-red-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110 z-50 group"
+      className="fixed bottom-8 right-8 bg-black hover:bg-red-800 text-white p-4 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-110 z-50 group border-2 border-red-800 hover:border-white"
+      style={{
+        boxShadow: '0 0 20px rgba(153, 27, 27, 0.4)'
+      }}
       aria-label="Scroll to top"
     >
-      <svg 
-        className="w-6 h-6 transition-transform duration-300 group-hover:-translate-y-1" 
-        fill="none" 
-        stroke="currentColor" 
-        viewBox="0 0 24 24"
-      >
-        <path 
-          strokeLinecap="round" 
-          strokeLinejoin="round" 
-          strokeWidth={2} 
-          d="M5 10l7-7m0 0l7 7m-7-7v18" 
-        />
-      </svg>
+      <ChevronUp 
+        className="w-6 h-6 transition-all duration-300 group-hover:-translate-y-1 group-hover:drop-shadow-lg font-bold" 
+        strokeWidth={3}
+      />
+      
+      {/* Samurai Touch - Optional katana effect */}
+      <div className="absolute inset-0 rounded-lg bg-gradient-to-t from-red-800/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      {/* Custom Styles */}
+      <style jsx>{`
+        button:hover {
+          box-shadow: 0 0 25px rgba(153, 27, 27, 0.6) !important;
+          animation: samuraiPulse 2s infinite;
+        }
+        
+        @keyframes samuraiPulse {
+          0%, 100% { 
+            box-shadow: 0 0 20px rgba(153, 27, 27, 0.4);
+          }
+          50% { 
+            box-shadow: 0 0 30px rgba(153, 27, 27, 0.7);
+          }
+        }
+      `}</style>
     </button>
   );
 };

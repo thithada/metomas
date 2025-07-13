@@ -92,7 +92,7 @@ const SkillModal: React.FC<SkillModalProps> = ({
                 {selectedSkill.logo}
               </span>
             ) : (
-              <div className="text-gray-900" style={{ transform: 'scale(1.5)' }}>
+              <div className="text-red-800" style={{ transform: 'scale(1.5)' }}>
                 {selectedSkill.logo}
               </div>
             )}
