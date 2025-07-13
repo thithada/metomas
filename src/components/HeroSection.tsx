@@ -2,7 +2,7 @@
 'use client'
 
 import React from 'react';
-import { ChevronDown, Mail, Linkedin, Github, Facebook, Instagram } from 'lucide-react';
+import { ChevronDown, Mail, Linkedin, Github, Facebook, Instagram, FileText } from 'lucide-react';
 
 interface HeroSectionProps {
   isVisible: boolean;
@@ -109,6 +109,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, scrollToSection })
                 }}
               >
                 <Facebook className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
+              </a>
+              <a
+                href="/Resume_Thithada_66026055.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-red-800 shadow-lg group"
+                style={{ 
+                  transition: 'all 0.4s ease-in-out',
+                  boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
+                }}
+              >
+                <FileText className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
               </a>
             </div>
           </div>

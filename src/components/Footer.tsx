@@ -2,7 +2,7 @@
 'use client'
 
 import React from 'react';
-import { Heart, Code } from 'lucide-react';
+import { Sword } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -11,25 +11,17 @@ const Footer: React.FC = () => {
         
         {/* Main Footer Content */}
         <div className="text-center">
-          <div className="flex items-center justify-center mb-4">
-            <Code className="w-5 h-5 text-red-800 mr-2" />
-            <span className="text-white font-bold text-lg drop-shadow-lg" style={{ letterSpacing: '1px' }}>
-              Crafted with
+          <div className="flex items-center justify-center mb-6">
+            <Sword className="w-6 h-6 text-red-800 mr-3 animate-pulse" />
+            <span className="text-white font-bold text-xl drop-shadow-lg" style={{ letterSpacing: '1px' }}>
+              "The way of the warrior is in training"
             </span>
-            <Heart className="w-5 h-5 text-red-800 mx-2 animate-pulse" />
-            <span className="text-white font-bold text-lg drop-shadow-lg" style={{ letterSpacing: '1px' }}>
-              and discipline
-            </span>
+            <Sword className="w-6 h-6 text-red-800 ml-3 animate-pulse" />
           </div>
           
           <p className="text-gray-300 text-lg font-medium mb-2 drop-shadow-sm" style={{ letterSpacing: '0.3px' }}>
-            © 2024 <span className="text-red-800 font-bold">Thithada Islam</span>
+            <span className="text-red-800 font-bold">Thithada Islam</span>
           </p>
-          
-          <p className="text-gray-400 text-sm font-medium drop-shadow-sm" style={{ letterSpacing: '0.2px' }}>
-            Built with <span className="text-red-800 font-bold">Next.js</span> and <span className="text-red-800 font-bold">Tailwind CSS</span>
-          </p>
-          
           <div className="mt-6 w-20 h-1 bg-red-800 mx-auto shadow-md shadow-red-800/50"></div>
         </div>
       </div>
