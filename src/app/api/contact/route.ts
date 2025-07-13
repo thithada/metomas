@@ -1,6 +1,7 @@
 //src/app/api/contact/route.ts
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
+import { redirect } from 'next/navigation';
 
 // สร้าง Prisma instance แยก สำหรับ Vercel
 const globalForPrisma = globalThis as unknown as {
@@ -16,7 +17,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, email, subject, message } = body;
 
-    console.log('Received data:', { name, email, subject, message }); // Debug log
+    console.log('Received data:', { name, email, subject, message });
 
     // Validation
     if (!name || !email || !subject || !message) {
@@ -51,10 +52,12 @@ export async function POST(request: NextRequest) {
 
     console.log('Message saved successfully:', contactMessage.id);
 
+    // ✅ เพิ่ม redirect หลังจากบันทึกสำเร็จ
     return NextResponse.json(
       { 
         message: 'Message sent successfully!', 
-        id: contactMessage.id 
+        id: contactMessage.id,
+        redirect: '/admin/messages' // เพิ่มข้อมูล redirect
       },
       { status: 201 }
     );
@@ -62,7 +65,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error saving contact message:', error);
     
-    // Log more details for debugging
     if (error instanceof Error) {
       console.error('Error details:', error.message);
       console.error('Error stack:', error.stack);
