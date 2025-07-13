@@ -1,15 +1,26 @@
-//src\app\api\contact\route.ts
+//src/app/api/contact/route.ts
 import { PrismaClient } from '@prisma/client';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-const prisma = new PrismaClient();
+// สร้าง Prisma instance แยก สำหรับ Vercel
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
+}
 
-export async function POST(request) {
+const prisma = globalForPrisma.prisma ?? new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+
+export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, message } = await request.json();
+    const body = await request.json();
+    const { name, email, subject, message } = body;
+
+    console.log('Received data:', { name, email, subject, message }); // Debug log
 
     // Validation
     if (!name || !email || !subject || !message) {
+      console.log('Validation failed: Missing fields');
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
@@ -19,21 +30,26 @@ export async function POST(request) {
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      console.log('Validation failed: Invalid email');
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
       );
     }
 
+    console.log('Attempting to save to database...');
+
     // Save to database
     const contactMessage = await prisma.contactMessage.create({
       data: {
-        name,
-        email,
-        subject,
-        message,
+        name: name.trim(),
+        email: email.trim().toLowerCase(),
+        subject: subject.trim(),
+        message: message.trim(),
       },
     });
+
+    console.log('Message saved successfully:', contactMessage.id);
 
     return NextResponse.json(
       { 
@@ -45,8 +61,18 @@ export async function POST(request) {
 
   } catch (error) {
     console.error('Error saving contact message:', error);
+    
+    // Log more details for debugging
+    if (error instanceof Error) {
+      console.error('Error details:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to send message. Please try again.' },
+      { 
+        error: 'Failed to send message. Please try again.',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      },
       { status: 500 }
     );
   }

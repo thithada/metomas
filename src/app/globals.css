@@ -1,8 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --accent: #991B1B; /* red-800 */
+  --accent-dark: #7F1D1D; /* red-900 */
+  --accent-light: #DC2626; /* red-600 */
 }
 
 @theme inline {
@@ -14,8 +17,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f0f0f;
+    --foreground: #f5f5f5;
   }
 }
 
@@ -23,24 +26,75 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-}
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  scroll-behavior: smooth;
 }
 
+/* Samurai-inspired Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
 
 ::-webkit-scrollbar-thumb {
-  background-color: #B10000; /* แดงเลือด */
-  border-radius: 9999px;
-  border: 2px solid #ffffff; /* ขอบขาวช่วยให้ดูมีขอบ */
+  background: linear-gradient(45deg, #991B1B, #7F1D1D); /* Gradient red */
+  border-radius: 6px;
+  border: 2px solid #1a1a1a; /* Dark border for contrast */
+  box-shadow: 0 0 8px rgba(153, 27, 27, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #8B0000; /* แดงเข้มขึ้นเมื่อ hover */
+  background: linear-gradient(45deg, #7F1D1D, #DC2626); /* Darker gradient on hover */
+  box-shadow: 0 0 12px rgba(153, 27, 27, 0.5);
 }
 
 ::-webkit-scrollbar-track {
-  background: #f5f5f5; /* พื้น scrollbar จาง */
+  background: linear-gradient(180deg, #f5f5f5, #e5e5e5); /* Light gradient track */
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+}
+
+::-webkit-scrollbar-corner {
+  background: #1a1a1a;
+}
+
+/* Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid #0f0f0f;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: linear-gradient(180deg, #1a1a1a, #262626);
+    border: 1px solid #404040;
+  }
+  
+  ::-webkit-scrollbar-corner {
+    background: #0f0f0f;
+  }
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(153, 27, 27, 0.3);
+  color: #1a1a1a;
+}
+
+::-moz-selection {
+  background-color: rgba(153, 27, 27, 0.3);
+  color: #1a1a1a;
+}
+
+/* Focus outline for accessibility */
+*:focus {
+  outline: 2px solid #991B1B;
+  outline-offset: 2px;
+}
+
+/* Custom shadow utilities */
+.shadow-samurai {
+  box-shadow: 0 4px 14px 0 rgba(153, 27, 27, 0.2);
+}
+
+.shadow-samurai-lg {
+  box-shadow: 0 10px 25px -3px rgba(153, 27, 27, 0.1), 0 4px 6px -2px rgba(153, 27, 27, 0.05);
 }
