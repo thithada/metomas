@@ -3,15 +3,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Shield, Lock, User } from 'lucide-react';
+import { Shield, Lock, User, AlertCircle } from 'lucide-react';
 
 const AdminLoginPage = () => {
   const [credentials, setCredentials] = useState({
-    username: '',
+    username: 'admin',
     password: ''
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [debugInfo, setDebugInfo] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -22,12 +23,37 @@ const AdminLoginPage = () => {
     }
   }, [router]);
 
+  const testApiConnection = async () => {
+    try {
+      const response = await fetch('/api/admin/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          username: 'test', 
+          password: 'test' 
+        }),
+      });
+      
+      const data = await response.json();
+      setDebugInfo(`API Response: ${JSON.stringify(data, null, 2)}`);
+      console.log('API Test:', data);
+    } catch (error) {
+      setDebugInfo(`API Error: ${error.message}`);
+      console.error('API Test Error:', error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setDebugInfo('');
 
     try {
+      console.log('Attempting login with:', { username: credentials.username });
+      
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: {
@@ -37,19 +63,25 @@ const AdminLoginPage = () => {
       });
 
       const data = await response.json();
+      console.log('Login response:', data);
+      
+      setDebugInfo(`Response: ${JSON.stringify(data, null, 2)}`);
 
       if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+        throw new Error(data.error || `HTTP ${response.status}`);
       }
 
-      // เก็บสถานะการ login ใน localStorage
+      // Login successful
       localStorage.setItem('admin_logged_in', 'true');
-      localStorage.setItem('admin_token', data.token);
+      if (data.token) {
+        localStorage.setItem('admin_token', data.token);
+      }
       
-      // Redirect to messages page
+      console.log('Login successful, redirecting...');
       router.push('/admin/messages');
       
     } catch (error) {
+      console.error('Login error:', error);
       setError(error instanceof Error ? error.message : 'Login failed');
     } finally {
       setIsLoading(false);
@@ -66,7 +98,7 @@ const AdminLoginPage = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-red-900 flex items-center justify-center p-6">
-      <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-8 w-full max-w-md border-2 border-red-800/20">
+      <div className="bg-white/95 backdrop-blur rounded-2xl shadow-2xl p-8 w-full max-w-lg border-2 border-red-800/20">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-16 h-16 mx-auto mb-4 bg-red-800 rounded-full flex items-center justify-center">
@@ -74,6 +106,29 @@ const AdminLoginPage = () => {
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Access</h1>
           <p className="text-gray-600">Enter your credentials to continue</p>
+        </div>
+
+        {/* Debug Section */}
+        <div className="mb-6 p-4 bg-gray-100 rounded-lg">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-sm font-bold text-gray-700">Debug Info</h3>
+            <button
+              type="button"
+              onClick={testApiConnection}
+              className="text-xs bg-blue-500 text-white px-2 py-1 rounded"
+            >
+              Test API
+            </button>
+          </div>
+          <div className="text-xs text-gray-600">
+            <p>Environment: {process.env.NODE_ENV || 'development'}</p>
+            <p>Default credentials: admin / admin123</p>
+            {debugInfo && (
+              <pre className="mt-2 text-xs bg-white p-2 rounded overflow-auto max-h-32">
+                {debugInfo}
+              </pre>
+            )}
+          </div>
         </div>
 
         {/* Login Form */}
@@ -88,7 +143,7 @@ const AdminLoginPage = () => {
               name="username"
               value={credentials.username}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 bg-white/90 backdrop-blur"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300"
               placeholder="Enter username"
               required
             />
@@ -104,14 +159,15 @@ const AdminLoginPage = () => {
               name="password"
               value={credentials.password}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 bg-white/90 backdrop-blur"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300"
               placeholder="Enter password"
               required
             />
           </div>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center">
+              <AlertCircle className="w-5 h-5 mr-2" />
               {error}
             </div>
           )}
@@ -135,10 +191,20 @@ const AdminLoginPage = () => {
           </button>
         </form>
 
+        {/* Default credentials hint */}
+        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <p className="text-yellow-800 text-sm font-medium">
+            💡 Default credentials for testing:
+          </p>
+          <p className="text-yellow-700 text-sm mt-1">
+            Username: <code className="bg-yellow-200 px-1 rounded">admin</code><br/>
+            Password: <code className="bg-yellow-200 px-1 rounded">admin123</code>
+          </p>
+        </div>
+
         {/* Footer */}
         <div className="mt-8 text-center text-gray-500 text-sm">
           <p>Protected Admin Area</p>
-          <p className="mt-1">Unauthorized access is prohibited</p>
         </div>
       </div>
     </div>

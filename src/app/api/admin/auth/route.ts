@@ -1,19 +1,30 @@
 // src/app/api/admin/auth/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('Admin login API called');
+    
     const body = await request.json();
     const { username, password } = body;
 
-    console.log('Admin login attempt for username:', username);
+    console.log('Login attempt for:', username);
+    console.log('Available env vars:', {
+      hasUsername: !!process.env.ADMIN_USERNAME,
+      hasPassword: !!process.env.ADMIN_PASSWORD,
+      nodeEnv: process.env.NODE_ENV
+    });
 
-    // ตรวจสอบ credentials (ในการใช้งานจริงควรเข้ารหัสรหัสผ่าน)
+    // ตรวจสอบ credentials
     const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
     const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 
+    console.log('Expected username:', ADMIN_USERNAME);
+    console.log('Received username:', username);
+    console.log('Password match:', password === ADMIN_PASSWORD);
+
     if (!username || !password) {
+      console.log('Missing username or password');
       return NextResponse.json(
         { error: 'Username and password are required' },
         { status: 400 }
@@ -21,62 +32,37 @@ export async function POST(request: NextRequest) {
     }
 
     if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
-      console.log('Invalid credentials for:', username);
+      console.log('Invalid credentials');
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        { error: 'Invalid username or password' },
         { status: 401 }
       );
     }
 
-    // สร้าง simple session token (ในการใช้งานจริงควรใช้ JWT)
-    const sessionToken = crypto.randomBytes(32).toString('hex');
+    console.log('Login successful');
     
-    console.log('Login successful for:', username);
-
-    // สร้าง response พร้อม cookie
-    const response = NextResponse.json({
+    return NextResponse.json({
       success: true,
       message: 'Login successful',
-      token: sessionToken
+      token: 'admin-token-' + Date.now()
     });
-
-    // ตั้งค่า cookie (HttpOnly สำหรับความปลอดภัย)
-    response.cookies.set('admin_session', sessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 24 hours
-      path: '/'
-    });
-
-    return response;
 
   } catch (error) {
-    console.error('Error in admin login:', error);
+    console.error('Error in admin auth:', error);
     return NextResponse.json(
-      { error: 'Login failed' },
+      { 
+        error: 'Login failed',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
 }
 
-// Logout endpoint
-export async function DELETE(request: NextRequest) {
-  try {
-    const response = NextResponse.json({
-      success: true,
-      message: 'Logout successful'
-    });
-
-    // ลบ cookie
-    response.cookies.delete('admin_session');
-
-    return response;
-  } catch (error) {
-    console.error('Error in admin logout:', error);
-    return NextResponse.json(
-      { error: 'Logout failed' },
-      { status: 500 }
-    );
-  }
+// Logout
+export async function DELETE() {
+  return NextResponse.json({
+    success: true,
+    message: 'Logout successful'
+  });
 }
