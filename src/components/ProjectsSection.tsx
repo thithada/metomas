@@ -1,3 +1,4 @@
+//src\components\ProjectsSection.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react';
@@ -10,6 +11,7 @@ interface Project {
   description: string;
   category: string;
   image: string;
+  link: string;
   icon: React.ComponentType<{ className?: string }>;
   theme: {
     background: string;
@@ -35,6 +37,7 @@ const ProjectsSection: React.FC = () => {
       description: "A facility maintenance request and tracking system on campus. Developed user interface components and API endpoints for request management.",
       category: "Full-Stack",
       image: "/images/maintenance-up.jpg",
+      link: "https://repair-up.netlify.app/",
       icon: Settings,
       theme: {
         background: "bg-gradient-to-br from-gray-50 to-gray-100",
@@ -50,6 +53,7 @@ const ProjectsSection: React.FC = () => {
       description: "A repair-tracking system for personal vehicles. Built notification features and real-time status update functionality.",
       category: "Full-Stack",
       image: "/images/autocar.jpg",
+      link: "https://autocar2.vercel.app/",
       icon: Car,
       theme: {
         background: "bg-gradient-to-br from-gray-50 to-gray-100",
@@ -65,6 +69,7 @@ const ProjectsSection: React.FC = () => {
       description: "A system to collect and analyze daily caloric intake. Implemented data visualization and user management features.",
       category: "Full-Stack",
       image: "/images/nutrition-analysis.jpg",
+      link: "https://project-nutrition-blush.vercel.app/",
       icon: Utensils,
       theme: {
         background: "bg-gradient-to-br from-gray-50 to-gray-100",
@@ -80,6 +85,7 @@ const ProjectsSection: React.FC = () => {
       description: "A 2D farming simulation game built from scratch. Implemented game mechanics, physics, and user interaction systems.",
       category: "Game Dev",
       image: "/images/howthecat.jpg",
+      link: "https://github.com/thithada/HowTheCat",
       icon: Gamepad2,
       theme: {
         background: "bg-gradient-to-br from-gray-50 to-gray-100",
@@ -141,6 +147,11 @@ const ProjectsSection: React.FC = () => {
     setSelectedImage(null);
   };
 
+  // Handle view project button click
+  const handleViewProject = (link: string) => {
+    window.open(link, '_blank', 'noopener,noreferrer');
+  };
+
   const getProjectTypeIcon = (type: string) => {
     return type === "Team Project" ? Users : User;
   };
@@ -183,12 +194,12 @@ const ProjectsSection: React.FC = () => {
               <div
                 key={index}
                 onClick={() => handleProjectClick(project)}
-                className={`cursor-pointer transition-all duration-700 transform hover:scale-105 group ${
+                className={`project-card cursor-pointer transition-all duration-700 transform group ${
                   visibleBoxes[index] ? 'opacity-100' : 'opacity-0'
                 } ${
                   selectedProject?.title === project.title && showModal
                     ? `bg-white shadow-2xl border-2 ${project.theme.border} scale-105 ring-4 ring-opacity-50 ${project.theme.border.replace('border-', 'ring-')}`
-                    : `bg-white/90 backdrop-blur hover:bg-black border-2 border-gray-200 hover:border-red-800 shadow-lg hover:shadow-xl hover:shadow-red-800/30`
+                    : `bg-white/90 backdrop-blur border-2 border-gray-200 shadow-lg`
                 }`}
                 style={{
                   borderRadius: '1rem',
@@ -199,18 +210,20 @@ const ProjectsSection: React.FC = () => {
                   boxShadow: selectedProject?.title === project.title && showModal ? 
                     '0 0 20px rgba(153, 27, 27, 0.5)' : undefined
                 }}
+                onMouseLeave={(e) => e.currentTarget.blur()}
+                onTouchEnd={(e) => e.currentTarget.blur()}
               >
                 <div className={`w-12 h-12 mb-3 mx-auto flex items-center justify-center transition-all duration-300 ease-in-out ${
                   selectedProject?.title === project.title && showModal
                     ? 'text-red-800' 
-                    : 'text-gray-700 group-hover:text-red-800 group-hover:drop-shadow-lg'
+                    : 'text-gray-700'
                 }`}>
                   <project.icon className="w-8 h-8" />
                 </div>
-                <span className={`font-bold text-lg transition-all duration-300 ease-in-out block letter-spacing-wide ${
+                <span className={`font-bold text-lg transition-all duration-300 ease-in-out block ${
                   selectedProject?.title === project.title && showModal
                     ? 'text-red-800' 
-                    : 'text-gray-900 group-hover:text-red-800 group-hover:drop-shadow-lg'
+                    : 'text-gray-900'
                 }`} style={{ letterSpacing: '0.5px' }}>
                   {project.title}
                 </span>
@@ -244,9 +257,11 @@ const ProjectsSection: React.FC = () => {
             <div className="p-8">
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 p-2 rounded-full bg-black/20 hover:bg-red-800/30 transition-all duration-300 border border-red-800/30 hover:border-red-800"
+                className="modal-close-btn absolute top-4 right-4 p-2 rounded-full bg-black/20 transition-all duration-300 border border-red-800/30 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-opacity-50"
+                onMouseLeave={(e) => e.currentTarget.blur()}
+                onTouchEnd={(e) => e.currentTarget.blur()}
               >
-                <X className="w-6 h-6 text-gray-700 hover:text-red-800 transition-colors duration-300" />
+                <X className="w-6 h-6 text-gray-700 transition-colors duration-300" />
               </button>
               
               {/* Project Header */}
@@ -294,10 +309,16 @@ const ProjectsSection: React.FC = () => {
                     <img 
                       src={selectedProject.image} 
                       alt={selectedProject.title}
-                      className="w-full max-w-lg mx-auto rounded-lg shadow-lg cursor-pointer hover:shadow-xl transition-shadow duration-300 transform hover:scale-105"
+                      className="project-image w-full max-w-lg mx-auto rounded-lg shadow-lg cursor-pointer transition-all duration-300 transform focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-opacity-50"
                       onClick={() => handleImageClick(selectedProject.image)}
                       onError={(e) => {
                         e.currentTarget.src = "https://via.placeholder.com/400x200?text=Project+Image";
+                      }}
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          handleImageClick(selectedProject.image);
+                        }
                       }}
                     />
                   </div>
@@ -307,20 +328,25 @@ const ProjectsSection: React.FC = () => {
               <div className="text-center">
                 <button
                   onClick={closeModal}
-                  className="px-8 py-3 bg-black hover:bg-red-800 text-white rounded-lg font-bold transition-all duration-300 ease-in-out border-2 border-red-800 hover:border-white shadow-lg hover:shadow-xl drop-shadow-lg mr-4"
+                  className="modal-btn px-8 py-3 bg-black text-white rounded-lg font-bold transition-all duration-300 ease-in-out border-2 border-red-800 shadow-lg drop-shadow-lg mr-4 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-opacity-50"
                   style={{ 
                     letterSpacing: '0.5px',
                     boxShadow: '0 0 15px rgba(153, 27, 27, 0.4)'
                   }}
+                  onMouseLeave={(e) => e.currentTarget.blur()}
+                  onTouchEnd={(e) => e.currentTarget.blur()}
                 >
                   Close
                 </button>
                 <button
-                  className="px-8 py-3 bg-red-800 hover:bg-black text-white rounded-lg font-bold transition-all duration-300 ease-in-out border-2 border-red-800 hover:border-red-800 shadow-lg hover:shadow-xl drop-shadow-lg inline-flex items-center"
+                  onClick={() => handleViewProject(selectedProject.link)}
+                  className="modal-btn px-8 py-3 bg-red-800 text-white rounded-lg font-bold transition-all duration-300 ease-in-out border-2 border-red-800 shadow-lg drop-shadow-lg inline-flex items-center focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-opacity-50"
                   style={{ 
                     letterSpacing: '0.5px',
                     boxShadow: '0 0 15px rgba(153, 27, 27, 0.4)'
                   }}
+                  onMouseLeave={(e) => e.currentTarget.blur()}
+                  onTouchEnd={(e) => e.currentTarget.blur()}
                 >
                   View Project
                   <ExternalLink className="ml-2 w-5 h-5" />
@@ -345,9 +371,11 @@ const ProjectsSection: React.FC = () => {
           <div className="relative max-w-5xl max-h-[90vh] w-full">
             <button
               onClick={closeImageModal}
-              className="absolute -top-12 right-0 p-2 rounded-lg bg-black/50 hover:bg-red-800/80 border border-red-800/50 hover:border-red-800 transition-all duration-300"
+              className="image-close-btn absolute -top-12 right-0 p-2 rounded-lg bg-black/50 border border-red-800/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-red-800 focus:ring-opacity-50"
+              onMouseLeave={(e) => e.currentTarget.blur()}
+              onTouchEnd={(e) => e.currentTarget.blur()}
             >
-              <X className="w-8 h-8 text-white hover:text-white transition-colors duration-300" />
+              <X className="w-8 h-8 text-white transition-colors duration-300" />
             </button>
             <img 
               src={selectedImage} 
@@ -397,14 +425,91 @@ const ProjectsSection: React.FC = () => {
           }
         }
         
-        /* Samurai hover effects */
-        .group:hover {
-          box-shadow: 0 0 15px rgba(153, 27, 27, 0.4) !important;
-          transform: scale(1.05) !important;
+        /* Fix sticky hover for project cards */
+        @media (hover: hover) {
+          .project-card:hover {
+            background-color: black !important;
+            border-color: rgba(153, 27, 27, 1) !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 0 15px rgba(153, 27, 27, 0.4) !important;
+          }
+          
+          .project-card:hover span {
+            color: rgba(153, 27, 27, 1) !important;
+            filter: drop-shadow(0 0 5px rgba(153, 27, 27, 0.3)) !important;
+          }
+          
+          .project-card:hover div {
+            color: rgba(153, 27, 27, 1) !important;
+            filter: drop-shadow(0 0 5px rgba(153, 27, 27, 0.3)) !important;
+          }
+          
+          .modal-btn:hover {
+            background-color: rgba(153, 27, 27, 1) !important;
+            border-color: white !important;
+            transform: scale(1.05) !important;
+          }
+          
+          .modal-close-btn:hover {
+            background-color: rgba(153, 27, 27, 0.3) !important;
+            border-color: rgba(153, 27, 27, 1) !important;
+          }
+          
+          .modal-close-btn:hover svg {
+            color: rgba(153, 27, 27, 1) !important;
+          }
+          
+          .project-image:hover {
+            transform: scale(1.05) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+          }
+          
+          .image-close-btn:hover {
+            background-color: rgba(153, 27, 27, 0.8) !important;
+            border-color: rgba(153, 27, 27, 1) !important;
+          }
         }
         
-        .group {
-          border-style: solid !important;
+        /* Touch feedback for mobile */
+        .project-card:active {
+          background-color: black !important;
+          border-color: rgba(153, 27, 27, 1) !important;
+          transform: scale(0.98) !important;
+        }
+        
+        .modal-btn:active {
+          transform: scale(0.98) !important;
+        }
+        
+        .modal-close-btn:active {
+          background-color: rgba(153, 27, 27, 0.3) !important;
+          transform: scale(0.95) !important;
+        }
+        
+        .image-close-btn:active {
+          background-color: rgba(153, 27, 27, 0.8) !important;
+          transform: scale(0.95) !important;
+        }
+        
+        /* Remove tap highlight and prevent text selection */
+        .project-card,
+        .modal-btn,
+        .modal-close-btn,
+        .image-close-btn,
+        .project-image {
+          -webkit-tap-highlight-color: transparent;
+          user-select: none;
+          -webkit-user-select: none;
+        }
+        
+        /* Focus styles for accessibility */
+        .project-card:focus-visible,
+        .modal-btn:focus-visible,
+        .modal-close-btn:focus-visible,
+        .image-close-btn:focus-visible,
+        .project-image:focus-visible {
+          outline: 2px solid rgba(153, 27, 27, 0.8);
+          outline-offset: 2px;
         }
       `}</style>
     </>
