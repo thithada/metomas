@@ -1,4 +1,4 @@
-// src/components/HeroSection.tsx
+//src\components\HeroSection.tsx
 'use client'
 
 import React from 'react';
@@ -15,9 +15,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, scrollToSection })
       <div className="max-w-6xl mx-auto w-full">
         <div
           className={`transition-all duration-1000 ${
-            isVisible
-              ? "opacity-100 translate-y-0"
-              : "opacity-0 translate-y-10"
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
           <div className="text-center mb-12">
@@ -52,76 +50,47 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, scrollToSection })
 
             {/* Social Media Icons */}
             <div className="flex justify-center space-x-6">
-              <a
-                href="https://github.com/thithada"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-red-800 shadow-lg group"
-                style={{ 
-                  transition: 'all 0.4s ease-in-out',
-                  boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
-                }}
-              >
-                <Github className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
-              </a>
-              <a
-                href="mailto:madname00@gmail.com"
-                className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-red-800 shadow-lg group"
-                style={{ 
-                  transition: 'all 0.4s ease-in-out',
-                  boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
-                }}
-              >
-                <Mail className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
-              </a>
-              <a
-                href="https://linkedin.com/in/thithada"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-red-800 shadow-lg group"
-                style={{ 
-                  transition: 'all 0.4s ease-in-out',
-                  boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
-                }}
-              >
-                <Linkedin className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
-              </a>
-              <a
-                href="https://www.instagram.com/thithada_tomas/?hl=en"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-red-800 shadow-lg group"
-                style={{ 
-                  transition: 'all 0.4s ease-in-out',
-                  boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
-                }}
-              >
-                <Instagram className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
-              </a>
-              <a
-                href="https://www.facebook.com/teetadar.pathan.9"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-red-800 shadow-lg group"
-                style={{ 
-                  transition: 'all 0.4s ease-in-out',
-                  boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
-                }}
-              >
-                <Facebook className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
-              </a>
-              <a
-                href="/Resume_Thithada_66026055.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-red-800 shadow-lg group"
-                style={{ 
-                  transition: 'all 0.4s ease-in-out',
-                  boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
-                }}
-              >
-                <FileText className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />
-              </a>
+              {[
+                {
+                  href: "https://github.com/thithada",
+                  icon: <Github className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />,
+                },
+                {
+                  href: "mailto:madname00@gmail.com",
+                  icon: <Mail className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />,
+                },
+                {
+                  href: "https://linkedin.com/in/thithada",
+                  icon: <Linkedin className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />,
+                },
+                {
+                  href: "https://www.instagram.com/thithada_tomas/?hl=en",
+                  icon: <Instagram className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />,
+                },
+                {
+                  href: "https://www.facebook.com/teetadar.pathan.9",
+                  icon: <Facebook className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />,
+                },
+                {
+                  href: "/Resume_Thithada_66026055.pdf",
+                  icon: <FileText className="w-7 h-7 text-red-800 group-hover:text-white group-hover:drop-shadow-lg transition-all duration-300" />,
+                },
+              ].map((item, index) => (
+                <a
+                  key={index}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseUp={(e) => e.currentTarget.blur()}
+                  className="bg-black/60 backdrop-blur p-4 rounded-lg hover:bg-red-800 transition-all duration-300 ease-in-out transform hover:scale-110 border-2 border-red-800/50 hover:border-white shadow-lg group focus:outline-none"
+                  style={{ 
+                    transition: 'all 0.4s ease-in-out',
+                    boxShadow: '0 0 10px rgba(153, 27, 27, 0.3)'
+                  }}
+                >
+                  {item.icon}
+                </a>
+              ))}
             </div>
           </div>
         </div>
@@ -133,17 +102,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({ isVisible, scrollToSection })
           0%, 100% { transform: translateY(0px); }
           50% { transform: translateY(-10px); }
         }
-        
+
         section:hover .floating-element {
           animation: float 3s ease-in-out infinite;
         }
-        
+
         h1 {
           text-shadow: 0 0 30px rgba(153, 27, 27, 0.3);
         }
-        
+
         .group:hover {
           box-shadow: 0 0 15px rgba(153, 27, 27, 0.6) !important;
+        }
+
+        a:focus,
+        a:active {
+          outline: none;
+          box-shadow: none !important;
+          background-color: inherit !important;
         }
       `}</style>
     </section>
