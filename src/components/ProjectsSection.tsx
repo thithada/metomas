@@ -80,7 +80,7 @@ const ProjectsSection: React.FC = () => {
     },
     {
       title: "HowTheCat",
-      type: "Solo Project",
+      type: "Solo Project, Ongoing",
       role: "Game Developer",
       description: "A 2D farming simulation game built from scratch. Implemented game mechanics, physics, and user interaction systems.",
       category: "Game Dev",
