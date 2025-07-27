@@ -21,8 +21,9 @@ const Navigation: React.FC<NavigationProps> = ({
           {/* Left - Brand */}
           <button 
             onClick={scrollToTop}
-            className="text-4xl font-bold relative group"
-            style={{ letterSpacing: '1px' }}
+            className="text-4xl font-bold relative group focus:outline-none focus:ring-0 focus:border-none active:outline-none"
+            style={{ letterSpacing: '1px', outline: 'none', border: 'none' }}
+            onBlur={(e) => e.target.blur()}
           >
             <span className="text-white group-hover:text-red-800 transition-all duration-300 ease-in-out drop-shadow-lg">Me</span>
             <span className="text-red-800 group-hover:text-white transition-all duration-300 ease-in-out drop-shadow-lg">Tomas</span>
@@ -33,32 +34,36 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="hidden md:flex space-x-8">
             <button
               onClick={() => scrollToSection("about")}
-              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg"
-              style={{ letterSpacing: '0.5px' }}
+              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg focus:outline-none focus:ring-0 focus:border-none active:outline-none"
+              style={{ letterSpacing: '0.5px', outline: 'none', border: 'none' }}
+              onBlur={(e) => e.target.blur()}
             >
               About
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-800 transition-all duration-300 group-hover:w-full shadow-md shadow-red-800/50"></span>
             </button>
             <button
               onClick={() => scrollToSection("interests")}
-              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg"
-              style={{ letterSpacing: '0.5px' }}
+              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg focus:outline-none focus:ring-0 focus:border-none active:outline-none"
+              style={{ letterSpacing: '0.5px', outline: 'none', border: 'none' }}
+              onBlur={(e) => e.target.blur()}
             >
               Interests
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-800 transition-all duration-300 group-hover:w-full shadow-md shadow-red-800/50"></span>
             </button>
             <button
               onClick={() => scrollToSection("projects")}
-              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg"
-              style={{ letterSpacing: '0.5px' }}
+              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg focus:outline-none focus:ring-0 focus:border-none active:outline-none"
+              style={{ letterSpacing: '0.5px', outline: 'none', border: 'none' }}
+              onBlur={(e) => e.target.blur()}
             >
               Projects
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-800 transition-all duration-300 group-hover:w-full shadow-md shadow-red-800/50"></span>
             </button>
             <button
               onClick={() => scrollToSection("skills")}
-              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg"
-              style={{ letterSpacing: '0.5px' }}
+              className="relative text-lg text-white hover:text-red-800 transition-all duration-300 ease-in-out font-bold group py-2 drop-shadow-lg focus:outline-none focus:ring-0 focus:border-none active:outline-none"
+              style={{ letterSpacing: '0.5px', outline: 'none', border: 'none' }}
+              onBlur={(e) => e.target.blur()}
             >
               Skills
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-800 transition-all duration-300 group-hover:w-full shadow-md shadow-red-800/50"></span>
@@ -69,11 +74,13 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="hidden md:block">
             <button
               onClick={() => scrollToSection("contact")}
-              className="relative bg-black hover:bg-red-800 text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl border-2 border-red-800 hover:border-white drop-shadow-lg"
+              className="relative bg-black hover:bg-red-800 text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl border-2 border-red-800 hover:border-white drop-shadow-lg focus:outline-none focus:ring-0 active:outline-none"
               style={{ 
                 letterSpacing: '0.5px',
-                boxShadow: '0 0 15px rgba(153, 27, 27, 0.4)'
+                boxShadow: '0 0 15px rgba(153, 27, 27, 0.4)',
+                outline: 'none'
               }}
+              onBlur={(e) => e.target.blur()}
             >
               Contact Me
             </button>
