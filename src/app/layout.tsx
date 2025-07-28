@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: "/images/TomasLOGO.png", // ✅ favicon ของเว็บไซต์
+    icon: "/images/Tomas2DART.png",
   },
 };
 
