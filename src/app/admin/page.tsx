@@ -7,7 +7,7 @@ import { Shield, Lock, User, AlertCircle } from 'lucide-react';
 
 const AdminLoginPage = () => {
   const [credentials, setCredentials] = useState({
-    username: 'admin',
+    username: '',
     password: ''
   });
   const [error, setError] = useState('');
@@ -108,29 +108,6 @@ const AdminLoginPage = () => {
           <p className="text-gray-600">Enter your credentials to continue</p>
         </div>
 
-        {/* Debug Section */}
-        <div className="mb-6 p-4 bg-gray-100 rounded-lg">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="text-sm font-bold text-gray-700">Debug Info</h3>
-            <button
-              type="button"
-              onClick={testApiConnection}
-              className="text-xs bg-blue-500 text-white px-2 py-1 rounded"
-            >
-              Test API
-            </button>
-          </div>
-          <div className="text-xs text-gray-600">
-            <p>Environment: {process.env.NODE_ENV || 'development'}</p>
-            <p>Default credentials: admin / admin123</p>
-            {debugInfo && (
-              <pre className="mt-2 text-xs bg-white p-2 rounded overflow-auto max-h-32">
-                {debugInfo}
-              </pre>
-            )}
-          </div>
-        </div>
-
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -143,7 +120,7 @@ const AdminLoginPage = () => {
               name="username"
               value={credentials.username}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 text-gray-900 placeholder-gray-500 bg-white"
               placeholder="Enter username"
               required
             />
@@ -159,7 +136,7 @@ const AdminLoginPage = () => {
               name="password"
               value={credentials.password}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300"
+              className="w-full px-4 py-3 rounded-lg border-2 border-gray-300 focus:border-red-800 focus:ring-2 focus:ring-red-800/20 transition-all duration-300 text-gray-900 placeholder-gray-500 bg-white"
               placeholder="Enter password"
               required
             />
@@ -191,17 +168,7 @@ const AdminLoginPage = () => {
           </button>
         </form>
 
-        {/* Default credentials hint */}
-        <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-          <p className="text-yellow-800 text-sm font-medium">
-            💡 Default credentials for testing:
-          </p>
-          <p className="text-yellow-700 text-sm mt-1">
-            Username: <code className="bg-yellow-200 px-1 rounded">admin</code><br/>
-            Password: <code className="bg-yellow-200 px-1 rounded">admin123</code>
-          </p>
-        </div>
-
+        
         {/* Footer */}
         <div className="mt-8 text-center text-gray-500 text-sm">
           <p>Protected Admin Area</p>
